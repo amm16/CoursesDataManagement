@@ -1,43 +1,43 @@
-columna.name,pais
-AIEP,
-EAD,
-FG,
-FMU,
-FPB,
-UAM BR,
-UDLA CL,
-UiP,
-UNIFACS,
-UniRitter,
-UNITEC HN,
-UNITEC Mx,
-UnP,
-Gest„o S„o Paulo,
-Servicios Andinos,
-UNAB,
-UNINORTE,
-UPN,
-UVM CL,
-CIBERTEC,
-FADERGS,
-UE Portugal,
+columna.name,pais,indice
+AIEP,Chile,0.843
+EAD,Brasil,0.759
+FG,Brasil,0.759
+FMU,Brasil,0.759
+FPB,Brasil,0.759
+UAM BR,Brasil,0.759
+UDLA CL,Chile,0.843
+UiP,Panama,0.789
+UNIFACS,Brasil,0.759
+UniRitter,Brasil,0.759
+UNITEC HN,Honduras,0.617
+UNITEC Mx,Mexico,0.774
+UnP,Brasil,0.759
+Gest√£o S√£o Paulo,Brasil,0.759
+Servicios Andinos,Chile,0.843
+UNAB,Chile,0.843
+UNINORTE,Brasil,0.759
+UPN,Peru,0.75
+UVM CL,Chile,0.843
+CIBERTEC,Peru,0.75
+FADERGS,Brasil,0.759
+UE Portugal,Portugal,0.847
 UEM,
 UIC,
 ULatina,
-FMU | FIAM FAAM,
+FMU | FIAM FAAM,Brasil,0.759
 HoldCo,
 UAM,
 UniFG,
 EAD Laureate,
-IBMR,
+IBMR,Brasil,0.759
 UniRitter | FAPA,
 UPC,
-Brazil HoldCo,
+Brazil HoldCo,Brasil,0.759
 L&I,
 ARO HoldCo,
 Bilgi,
 LNI,
-Brazil,
+Brazil,Brasil,0.759
 CBTC,
 UDLA EC,
 UniRitter | Iguatemi,
