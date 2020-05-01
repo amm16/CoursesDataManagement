@@ -39,3 +39,6 @@ coursesData <- coursesData[,!(names(coursesData) %in% c("Level","Language","Prim
 coursesColumns$translation <- as.character(coursesColumns$translation)
 #Asignarle los nuevos nombres
 names(coursesData) <- coursesColumns$translation
+
+#Generar csv con data limpia
+write.csv(coursesData,"courses_data_cleaned.csv", row.names = FALSE)
