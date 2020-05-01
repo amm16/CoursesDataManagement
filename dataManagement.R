@@ -1,35 +1,41 @@
 #Libraries
 library(dplyr)
-library(here)
+#Asignar espacio de trabajo
+setwd("/");
+setwd("home/am/Documents/Seminario/CoursesDataManagement");
 
-#Set ablibrary(here)
-#> here() starts at C:/test/someproject
-here("data", "file.txt")
-#> "C:/test/someproject/data/file.txt"
-readLines(here("data", "file.txt"))
-#> "The here package is awesome!"solute path
-path <- "/"
-setwd("/")
-setwd("Users/ucaballero/Desktop/repositories/SEMINARIO/Survey analysis/")
+getwd();
 
+#Leer archivo csv y asignarlo a una variable
+coursesData <- read.csv("CSV_DATASET.csv",header = T,sep = ",", encoding = "UTF-8")
 
-survey <- read.csv("survey.csv",header = T,sep = ",", encoding = "UTF-8")
-column_names <- read.csv("column_names_tratados.csv",header = T,sep = ";")
-!(names(survey) %in% c("Numero.de.cuenta"))
-survey <- survey[,!(names(survey) %in% c("Numero.de.cuenta"))]
+#Asignar los nombres en una variable
+coursesDataNames <- names(coursesData)
 
-str(survey)
-summary(survey)
+#Asignar a coursesColumns el  valor de coursesDataNames,
+#pero exceptuando la columna 'level,'Primary.Email' y 'Language'
+coursesColumns <- coursesDataNames[!(coursesDataNames %in% c("Level","Language","Primary.Email"))]
 
-survey
-head(survey,2)
-tail(survey,2)
+#Revisar resultado
+coursesColumns
 
-column_names <- column_names[ !(column_names$translation == "") , !(names(column_names) %in% c("X")) ]
-column_names$translation <- as.character(column_names$translation)
-names(survey) <- column_names$translation
+#Crear un nuevo dataframe que utiliza como nombre de columna los valores de courseColumn
+df <- data.frame(column.name = coursesColumns)
 
-head(survey)
+#Escribir dataframe en un archivo csv
+#Mandar parametro como row.names como falso para evitar que se agregue una columna 
+#extra con nombre vacio
+write.csv(df,"column_names.csv", row.names = FALSE)
 
+#Traducir el nombre de las columnas a espanol y llamar nuevamente el nuevo archivo csv
+coursesColumns <- read.csv("column_names _treatment.csv",header = T,sep = ",", encoding = "UTF-8")
 
-write.csv(survey,"survey_cleaned.csv",row.names = F)
+#Revisar resultado
+coursesColumns
+
+#Limpiar el nombre de coursesData
+coursesData <- coursesData[,!(names(coursesData) %in% c("Level","Language","Primary.Email"))]
+#Antes de asignar los nombres convertir la columna de translations a character
+coursesColumns$translation <- as.character(coursesColumns$translation)
+#Asignarle los nuevos nombres
+names(coursesData) <- coursesColumns$translation
