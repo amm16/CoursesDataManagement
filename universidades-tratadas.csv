@@ -1,4 +1,4 @@
-columna.name,pais,indice IDH,ranking ,universidad equivalente
+columna.name,pais,indiceIDH,ranking ,universidadEquivalente
 AIEP,Chile,0.843,980,AIEP
 EAD,Brasil,0.759,,
 FG,Brasil,0.759,1496,UNIFG
@@ -12,7 +12,7 @@ UniRitter,Brasil,0.759,581,UNIRITTER
 UNITEC HN,Honduras,0.617,615,UNITEC HN
 UNITEC Mx,Mexico,0.774,827,UNITEC MX
 UnP,Brasil,0.759,403,UNP
-Gest„o S„o Paulo,Brasil,0.759,997,BSSP
+Gest√£o S√£o Paulo,Brasil,0.759,997,BSSP
 Servicios Andinos,Chile,0.843,,Servicios Andinos
 UNAB,Chile,0.843,67,UNAB
 UNINORTE,Brasil,0.759,1125,UNINORTE
@@ -21,7 +21,7 @@ UVM CL,Chile,0.843,795,UVM CL
 CIBERTEC,Peru,0.75,1240,CIBERTEC
 FADERGS,Brasil,0.759,1398,FADERGS
 UE Portugal,Portugal,0.847,,
-UEM,EspaÒa,0.891,,
+UEM,Espa√±a,0.891,,
 UIC,Marruecos,0.667,,
 ULatina,Costa Rica,0.794,702,ULATINA
 FMU | FIAM FAAM,Brasil,0.759,489,FMU
