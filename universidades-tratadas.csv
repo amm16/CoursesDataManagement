@@ -1,46 +1,46 @@
-columna.name,pais,indice
-AIEP,Chile,0.843
-EAD,Brasil,0.759
-FG,Brasil,0.759
-FMU,Brasil,0.759
-FPB,Brasil,0.759
-UAM BR,Brasil,0.759
-UDLA CL,Chile,0.843
-UiP,Panama,0.789
-UNIFACS,Brasil,0.759
-UniRitter,Brasil,0.759
-UNITEC HN,Honduras,0.617
-UNITEC Mx,Mexico,0.774
-UnP,Brasil,0.759
-Gest√£o S√£o Paulo,Brasil,0.759
-Servicios Andinos,Chile,0.843
-UNAB,Chile,0.843
-UNINORTE,Brasil,0.759
-UPN,Peru,0.75
-UVM CL,Chile,0.843
-CIBERTEC,Peru,0.75
-FADERGS,Brasil,0.759
-UE Portugal,Portugal,0.847
-UEM,Espa√±a,0.891
-UIC,Marruecos,0.667
-ULatina,Costa Rica,0.794
-FMU | FIAM FAAM,Brasil,0.759
-HoldCo,Brasil,0.759
-UAM,Brasil,0.759
-UniFG,Brasil,0.759
-EAD Laureate,Brasil,0.759
-IBMR,Brasil,0.759
-UniRitter | FAPA,Brasil,0.759
-UPC,Peru,0.75
-Brazil HoldCo,Brasil,0.759
-L&I,Honduras,0.617
-ARO HoldCo,Brasil,0.759
-Bilgi,Turquia,0.791
-LNI,Honduras,0.617
-Brazil,Brasil,0.759
-CBTC,Peru,0.75
-UDLA EC,Ecuador,0.752
-UniRitter | Iguatemi,Brasil,0.759
-Istanbul Bilgi University,Turquia,0.791
-UAM PIRACICABA,Brasil,0.759
-BiTS,Alemania,0.936
+columna.name,pais,indice IDH,ranking ,universidad equivalente
+AIEP,Chile,0.843,980,AIEP
+EAD,Brasil,0.759,,
+FG,Brasil,0.759,1496,UNIFG
+FMU,Brasil,0.759,489,FMU
+FPB,Brasil,0.759,1404,FPB
+UAM BR,Brasil,0.759,525,UAM BR
+UDLA CL,Chile,0.843,691,UDLA CL
+UiP,Panama,0.789,1080,UIP
+UNIFACS,Brasil,0.759,233,UNIFACS
+UniRitter,Brasil,0.759,581,UNIRITTER
+UNITEC HN,Honduras,0.617,615,UNITEC HN
+UNITEC Mx,Mexico,0.774,827,UNITEC MX
+UnP,Brasil,0.759,403,UNP
+Gest„o S„o Paulo,Brasil,0.759,997,BSSP
+Servicios Andinos,Chile,0.843,,Servicios Andinos
+UNAB,Chile,0.843,67,UNAB
+UNINORTE,Brasil,0.759,1125,UNINORTE
+UPN,Peru,0.75,627,UPN
+UVM CL,Chile,0.843,795,UVM CL
+CIBERTEC,Peru,0.75,1240,CIBERTEC
+FADERGS,Brasil,0.759,1398,FADERGS
+UE Portugal,Portugal,0.847,,
+UEM,EspaÒa,0.891,,
+UIC,Marruecos,0.667,,
+ULatina,Costa Rica,0.794,702,ULATINA
+FMU | FIAM FAAM,Brasil,0.759,489,FMU
+HoldCo,Brasil,0.759,,
+UAM,Brasil,0.759,525,UAM BR
+UniFG,Brasil,0.759,1496,UNIFG
+EAD Laureate,Brasil,0.759,,
+IBMR,Brasil,0.759,1299,IBMR
+UniRitter | FAPA,Brasil,0.759,581,UNIRITTER
+UPC,Peru,0.75,187,UPC
+Brazil HoldCo,Brasil,0.759,,
+L&I,Honduras,0.617,,
+ARO HoldCo,Brasil,0.759,,
+Bilgi,Turquia,0.791,,
+LNI,Honduras,0.617,,
+Brazil,Brasil,0.759,,
+CBTC,Peru,0.75,1240,CIBERTEC
+UDLA EC,Ecuador,0.752,253,UDLA EC
+UniRitter | Iguatemi,Brasil,0.759,581,UNIRITTER
+Istanbul Bilgi University,Turquia,0.791,,
+UAM PIRACICABA,Brasil,0.759,525,UAM BR
+BiTS,Alemania,0.936,,
