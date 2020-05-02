@@ -18,7 +18,7 @@ df_per <-as.data.frame(prop.table(table(coursesData$nivelDelCurso)))
 
 #Operador pipe  %>% se ocupa libreria dplyr
 #Ordenar por frecuencia
-df_perc <- df_per %>% arrange(Freq)
+df_per <- df_per %>% arrange(Freq)
 
 #Boxplot de frecuencia/ Caja de Bigotes para identificar valores atipicos y luego excluirlos
 #Mandar como parametro un vector numero continuo
@@ -53,13 +53,56 @@ names(coursesData)[length(names(coursesData))] <- "nivelDelCurso"
 
 df_per <-as.data.frame(prop.table(table(coursesData$nivelDelCurso)))
 
-df_perc <- df_per %>% arrange(Freq)
-
 boxplot(df_per$Freq)
 
 hist(df_per$Freq)
 
 qqnorm(df_per$Freq) #Ahora la data esta mejor distribuida
+
+
+#Analizar los estados y agrupar NoShow y Dropout
+
+#Convertir las proporciones en dataframe
+df_per_Estado <-as.data.frame(prop.table(table(coursesData$estado)))
+df_per_Estado <- df_per_Estado%>% arrange(Freq)
+
+boxplot(df_per_Estado$Freq)
+
+hist(df_per_Estado$Freq)
+
+qqnorm(df_per_Estado$Freq)
+#Agrupar "No Show" y "Dropout"
+df_per_Estado[df_per_Estado$Var1 %in%c("No Show","Dropout"),"categoria"] <-"Dropout"
+df_per_Estado[df_per_Estado$Var1 %in%c("Fail"),"categoria"] <-"Fail"
+df_per_Estado[df_per_Estado$Var1 %in%c("Pass"),"categoria"] <-"Pass"
+df_per_Estado <- df_per_Estado %>% select(Var1,categoria)
+
+#Unir la categoria a coursesData con un left join
+coursesData <- left_join(coursesData,df_per_Estado,by=c("estado"="Var1"))
+
+#Eliminar la columna de estado
+coursesData <- coursesData[,!(names(coursesData) %in% c("estado"))]
+
+#Cambiar el nombre de categoria a estado
+
+names(coursesData)[length(names(coursesData))] <- "estado"
+#Hacer nuevamente el analisis de los cambios
+df_per_Estado <-as.data.frame(prop.table(table(coursesData$estado)))
+df_per_Estado <- df_per_Estado%>% arrange(Freq)
+
+boxplot(df_per_Estado$Freq)
+
+hist(df_per_Estado$Freq)
+
+qqnorm(df_per_Estado$Freq)
+
+
+
+
+
+
+
+
 
 
 
