@@ -1,10 +1,5 @@
 #Libraries
 library(dplyr)
-#Asignar espacio de trabajo
-setwd("/");
-setwd("home/am/Documents/Seminario/CoursesDataManagement");
-getwd();
-
 #Leer archivo csv de la data limpia
 coursesData <- read.csv("courses_data_cleaned.csv",header = T,sep = ",", encoding = "UTF-8")
 
