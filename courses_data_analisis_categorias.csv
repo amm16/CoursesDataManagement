@@ -1119,7 +1119,7 @@
 2018,"Fall","ULatina","ULatinaED@256EDulatina.cr","Levano EN1 - Intermediate 2 (Fall 2018)","78.89","Intermediate","Pass"
 2018,"Fall","ULatina","ULatinaGA@5006GAlaureate.cr","Labriny EN2 - Advanced 1 (Fall 2018)","15","Advanced","Fail"
 2018,"Spring","ULatina","ULatinaGG@3560GGulatina.cr","Levano EN2 - Basic 1 (Spring 2018)","0","Basic","Dropout"
-2018,"Spring","ULatina","ULatinaG??®@2228G??®ulatina.cr","Gil EN1 - First Discoveries (Spring 2018)","0","Basic","Dropout"
+2018,"Spring","ULatina","ULatinaG??Â®@2228G??Â®ulatina.cr","Gil EN1 - First Discoveries (Spring 2018)","0","Basic","Dropout"
 2018,"Fall","ULatina","ULatinaIS@4764ISulatina.cr","Febres SP1 - B1.1 Pre-Intermediate (Fall 2018)","2.5","Intermediate","Fail"
 2018,"Winter","ULatina","UlatinaJG@5498JGgmail.com","Maynez EN2 - Basic 3 (Winter 2018)","55.97","Basic","Fail"
 2018,"Summer","ULatina","ULatinaJN@2679JNlaureate.cr","Franklin EN4 - Intermediate 2 (Summer 2018)","0","Intermediate","Dropout"
@@ -2771,7 +2771,7 @@
 2018,"Summer","UnP","UnPAM@9613AMunp.br","Levano EN1 - Basic 1 (Summer 2018)","12.6","Basic","Fail"
 2018,"Winter","UnP","UnPAN@2317ANunp.br ","Febres EN1 - First Discoveries (Winter 2018)","#N/A","Basic","Dropout"
 2018,"Summer","UnP","UnPAO@6421AOunp.br","Maynez EN3 - Basic 3 (Summer 2018)","0","Basic","Dropout"
-2018,"Winter","UnP","UnPAO@741AOunp.br??®","Boyle EN1 - Basic 2 (Winter 2018)","#N/A","Basic","Dropout"
+2018,"Winter","UnP","UnPAO@741AOunp.br??Â®","Boyle EN1 - Basic 2 (Winter 2018)","#N/A","Basic","Dropout"
 2018,"Fall","UnP","UnPAP@3945APunp.br","Febres EN1 - First Discoveries (Fall 2018)","0","Basic","Dropout"
 2018,"Summer","UnP","UnPAS@2065ASunp.br","Hall EN1 - First Discoveries (Summer 2018)","0","Basic","Dropout"
 2018,"Spring","UnP","UnPAS@6834ASlaureate.com.br","Gil EN1 - First Discoveries (Spring 2018)","57.72","Basic","Fail"
@@ -2926,7 +2926,7 @@
 2018,"Fall","UnP","UnPRT@8442RTlaureate.com.br","Franklin EN4 - Intermediate 1 (Fall 2018)","44.63","Intermediate","Fail"
 2018,"Summer","UnP","UnPRU@9426RUunp.br","Febres SP1 - B1.1 Pre-Intermediate (Summer 2018)","","Intermediate","Fail"
 2018,"Summer","UnP","UnPSA@1892SAunp.br","Levano EN4 - Basic 1 (Summer 2018)","20.53","Basic","Fail"
-2018,"Winter","UnP","UnPSS@4474SSunp.br??®","Franklin EN1 - Basic 3 (Winter 2018)","12","Basic","Fail"
+2018,"Winter","UnP","UnPSS@4474SSunp.br??Â®","Franklin EN1 - Basic 3 (Winter 2018)","12","Basic","Fail"
 2018,"Summer","UnP","UnPSS@8284SSlaureate.com.br","Puga EN1 - Advanced 2 (Summer 2018)","0","Advanced","Dropout"
 2018,"Winter","UnP","UnPSV@4704SVUNP.BR","Dantas EN2 - Basic 1 (Winter 2018)","0","Basic","Fail"
 2018,"Fall","UNP","UNPTC@1411TCunp.br ","Dantas EN1 - First Discoveries (Fall 2018)","0",NA,"Dropout"
@@ -3672,8 +3672,8 @@
 2019,"Winter","ULatina","ULatinaBP@3052BPlaureate.cr","Puga EN1 - Advanced 3 (Winter 2019)","","Advanced","Dropout"
 2019,"Spring","ULatina","ULatinaCB@8237CBulatina.cr","Puga EN1 - Basic 3 (Spring 2019)","0.9","Basic","Fail"
 2019,"Spring","ULatina","ULatinaER@4797ERulatina.cr","Solano EN1 - Basic 1 (Spring 2019)","35.74","Basic","Fail"
-2019,"Spring","ULatina","ULatinaG??®@2228G??®ulatina.cr","Febres SP1 - A1.2 Beginner (Spring 2019)","0","Basic","Dropout"
-2019,"Spring","ULatina","ULatinaG??®@2228G??®ulatina.cr","Loya EN1 - Basic 3 (Spring 2019)","2.43","Basic","Fail"
+2019,"Spring","ULatina","ULatinaG??Â®@2228G??Â®ulatina.cr","Febres SP1 - A1.2 Beginner (Spring 2019)","0","Basic","Dropout"
+2019,"Spring","ULatina","ULatinaG??Â®@2228G??Â®ulatina.cr","Loya EN1 - Basic 3 (Spring 2019)","2.43","Basic","Fail"
 2019,"Spring","ULatina","ULatinaIA@1453IAulatina.cr","Febres SP1 - B1.1 Pre-Intermediate (Spring 2019)","0","Intermediate","Dropout"
 2019,"Winter","ULatina","ULatinaKZ@19KZulatina.cr","Boyle EN2 - Basic 2 (Winter 2019)","","Basic","Dropout"
 2019,"Winter","ULatina","UlatinaLC@2655LCgmail.com","Maynez EN1 - Intermediate 2 (Winter 2019)","","Intermediate","Fail"
@@ -4775,13 +4775,3 @@
 2019,"Spring","UVM CL","UVMSJ@9717SJuvm.cl","Jonathan EN1 - Intermediate 2 (Spring 2019)","2.5","Intermediate","Fail"
 2019,"Spring","UVM CL","UVMTL@6210TLuvm.cl","Loya EN2 - Basic 3 (Spring 2019)","#N/A","Basic","Dropout"
 2019,"Winter","UVM CL","UVMVN@817VNuvm.cl","Solano EN2 - Basic 1 (Winter 2019)","","Basic","Fail"
-2020,"Cycle l","UAM","UAMVP@5515VPlaureate.com.br","Intermediate 2 - Boyle (Cycle l - 2020)","","Intermediate",NA
-2020,"Cycle l","UEM","UEMRC@384RCuniversidadeuropea.es","Intermediate 2 - Boyle (Cycle l - 2020)","","Intermediate",NA
-2020,"Cycle l","UEM","UEMRC@6384RCuniversidadeuropea.es","Intermediate 2 - Boyle (Cycle l - 2020)","","Intermediate",NA
-2020,"Cycle l","UEM","UEMRC@8710RCuniversidadeuropea.es","Intermediate 2 - Boyle (Cycle l - 2020)","","Intermediate",NA
-2020,"Cycle l","UAM","UAMCC@2836CCanhembi.br","Intermediate 2 - Boyle (Cycle l - 2020)","","Intermediate",NA
-2020,"Cycle l","UAM","UAMCC@2836CCanhembi.br","Intermediate 2 - Boyle (Cycle l - 2020)","","Intermediate",NA
-2020,"Cycle l","UPC","UPCAP@6036APlaureate.net","Intermediate 2 - Boyle (Cycle l - 2020)","","Intermediate",NA
-2020,"Cycle l","UPC","UPCCN@4065CNupc.pe","Intermediate 2 - Boyle (Cycle l - 2020)","","Intermediate",NA
-2020,"Cycle l","UPC","UPCGC@3821GCupc.pe","Intermediate 2 - Boyle (Cycle l - 2020)","","Intermediate",NA
-2020,"Cycle l","UPC","UPCNG@3707NGlaureate.net","Intermediate 2 - Boyle (Cycle l - 2020)","","Intermediate",NA
