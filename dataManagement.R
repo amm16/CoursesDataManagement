@@ -1,8 +1,4 @@
 
-#Asignar espacio de trabajo
-setwd("/");
-setwd("home/am/Documents/Seminario/CoursesDataManagement");
-
 #Leer archivo csv y asignarlo a una variable
 coursesData <- read.csv("CSV_DATASET.csv",header = T,sep = ",", encoding = "UTF-8")
 
