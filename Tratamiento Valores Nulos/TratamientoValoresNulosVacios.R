@@ -1,7 +1,10 @@
 ##Tratamiento Valores Nulos
 
+setwd("/")
+setwd("Users/ANA RAQUEL ANDINO/Documents/2020/R")
+getwd()
 DataF <- read.csv("courses_data_cleaned.csv",header = T,sep = ",",encoding = "UTF-8")
-DataF <- read.csv("courses_data_analisis_categorias.csv",header = T,sep = ",",encoding = "UTF-8")
+##DataF <- read.csv("courses_data_analisis_categorias.csv",header = T,sep = ",",encoding = "UTF-8")
 names(DataF) #Nombre de columnas -- Devuelve un vector
 library(dplyr)
 summary(DataF)
@@ -9,12 +12,15 @@ DataF$notaFinal
 str(DataF)
 
 
+table(DataF$nivelDelCurso)
 
+
+DataF[DataF$nivelDelCurso=="Basic 2 ","nivelDelCurso"] <-"Basic 2"
 
 ##1. Eliminar Registros del 2020
 DataF %>% filter(DataF$año==2020) ##Son 10 Registros
 DataF <- DataF[!(DataF$año==2020),]
-
+DataF %>% filter(DataF$lanzamiento=="Cycle l") 
 
 ##Final.Grade tiene NA y Valores Vacios
 
@@ -71,8 +77,8 @@ as.data.frame(prop.table(table(DataF[,"notaFinal"] == "")))
 
 ##Registros vacios y NA
 DataF$notaFinal <- as.numeric(levels(DataF$notaFinal))[DataF$notaFinal]
-DataF[DataF$notaFinal == "#N/A","notaFinal"] <- 0
-DataF[DataF$estado=="Dropout","notaFinal"] <- 0
+DataF[DataF$notaFinal == "#N/A","notaFinal"] <- 0 ##Todos los NA de dropout y noshow se pueden dejar a 0
+
 
 
 
@@ -127,7 +133,13 @@ DFTemporalFail[is.na(DFTemporalFail$notaFinal),"notaFinal"] <- meanRegistrosFail
 table(DFTemporalFail[DFTemporalFail$notaFinal==meanRegistrosFail,"notaFinal"])
 
 ##------------Dropout-------------
-DFTemporalDrop<- DataF %>% filter(estado=="Dropout")
+DFTemporalDrop<- DataF %>% filter( (estado=="Dropout"))
+DFTemporalDrop[DFTemporalDrop$estado=="Dropout","notaFinal"] <- 0
+
+
+##-------------No show---------
+DFTemporalNoshow<- DataF %>% filter(estado=="No Show")
+DFTemporalNoshow[DFTemporalNoshow$estado=="No Show","notaFinal"] <- 0
 
 
 
@@ -137,12 +149,13 @@ DFGeneralRows <- c()
 DFGeneralRows <- rbind(DFGeneralRows,DFTemporalPass)
 DFGeneralRows <- rbind(DFGeneralRows,DFTemporalFail)
 DFGeneralRows <- rbind(DFGeneralRows,DFTemporalDrop)
+DFGeneralRows <- rbind(DFGeneralRows,DFTemporalNoshow)
 
 ##Ejecutar For para comprobar Valores Nulos y vacios = 0
 DataF<-DFGeneralRows
 
 ##Exportando a csv
-write.csv(DataF,"Tratamiento-limpieza-datos.csv",row.names = FALSE)
+write.csv(DataF,"Tratamiento-nulos-main.csv",row.names = FALSE)
 
 
 

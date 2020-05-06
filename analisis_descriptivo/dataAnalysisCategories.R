@@ -1,7 +1,7 @@
 #Libraries
 library(dplyr)
-#Leer archivo csv de la data limpia
-coursesData <- read.csv("courses_data_cleaned.csv",header = T,sep = ",", encoding = "UTF-8")
+#Leer archivo csv con el tratamiento de nulos 
+coursesData <- read.csv("Tratamiento-nulos-main.csv",header = T,sep = ",", encoding = "UTF-8")
 
 #Analizar categorias nivel del curso
 
@@ -25,9 +25,10 @@ hist(df_per$Freq)
 #Verificar si la distribucion es normal QQ-plot - si se mira una diagonal es distribucion normal
 qqnorm(df_per$Freq)
 #Agrupar niveles en categorias
-df_per[df_per$Var1 %in%c("Advanced 1","Advanced 2","Advanced 3"),"categoriaNivelDelCurso"] <-"Advanced"
-df_per[df_per$Var1 %in%c("Basic 1","Basic 2","Basic 3","First Discoveries"),"categoriaNivelDelCurso"] <-"Basic"
-df_per[df_per$Var1 %in%c("Intermediate 1","Intermediate 2","Intermediate 3","English at Work 3"),"categoriaNivelDelCurso"] <-"Intermediate"
+df_per[df_per$Var1 %in%c("Advanced 1","English at Work 3"),"categoriaNivelDelCurso"] <-"Advanced"
+df_per[df_per$Var1 %in%c("Advanced 2","Advanced 3"),"categoriaNivelDelCurso"] <-"Very Advanced"
+df_per[df_per$Var1 %in%c("Basic 1","Basic 2","First Discoveries"),"categoriaNivelDelCurso"] <-"Basic"
+df_per[df_per$Var1 %in%c("Basic 3","Intermediate 1","Intermediate 2","Intermediate 3"),"categoriaNivelDelCurso"] <-"Intermediate"
 
 #Asignar nuevamente el dataframe pero solo seleccionando Var1 y categoriaNivelDelCurso
 df_per <- df_per %>% select(Var1,categoriaNivelDelCurso)
@@ -47,6 +48,7 @@ names(coursesData)[length(names(coursesData))] <- "nivelDelCurso"
 #Hacer nuevamente los analisis con los nuevos cambios
 
 df_per <-as.data.frame(prop.table(table(coursesData$nivelDelCurso)))
+df_per <- df_per %>% arrange(Freq)
 
 boxplot(df_per$Freq)
 
@@ -92,13 +94,4 @@ hist(df_per_Estado$Freq)
 qqnorm(df_per_Estado$Freq)
 
 
-
-
-
-
-
-
-
-
-
-
+write.csv(coursesData,"courses_data_analisis_categorias_nivel_estado.csv", row.names = FALSE)
