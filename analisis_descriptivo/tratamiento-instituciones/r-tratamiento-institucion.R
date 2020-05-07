@@ -5,6 +5,11 @@ library(dplyr)
 summary(DataF)
 str(DataF)
 
+#Analisis Descriptivo de instituciones
+df_per_Institucion<-as.data.frame(prop.table(table(DataF$institucion))) %>% arrange(Freq)
+
+boxplot(df_per_Institucion$Freq) #Se observaron valores atipicos por lo cual se decidio hacer un tramiento
+
 
 ##--------------------------Tratamiento Universidades---------------------
 #Obtengo todas las universidades diferentes y su prop
@@ -33,5 +38,14 @@ write.csv(DataF,"tratamiento-institucion.csv",row.names = FALSE)
 
 
 #cambiar a factor
-DataF$institucion <- as.factor(DataF$institucion)
-prop.table(table(DataF$equivalente))
+#DataF$institucion <- as.factor(DataF$institucion)
+#prop.table(table(DataF$equivalente))
+
+#Analisis Descriptivo de instituciones despues de tratamiento
+df_per_Institucion<-as.data.frame(prop.table(table(DataF$institucion))) %>% arrange(Freq)
+
+boxplot(df_per_Institucion$Freq)
+
+hist(df_per_Institucion$Freq)
+
+qqnorm(df_per_Institucion$Freq)
