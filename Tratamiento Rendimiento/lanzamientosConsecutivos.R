@@ -33,10 +33,8 @@ validarOrden <- function(registro, datos, output) {
   count = 1
   año = as.character(menor$año)
   siguiente = as.character(menor$lanzamiento) #La variable siguiente se usará para tener el lanzamiento inicial y luego validar el que le sigue
-  orden = siguiente
+  orden = paste(siguiente, año, sep="")
   
-  #Header del archivo resultante
-  cat(paste(c('correo'), c('resultado'), c('lanzamientos'), sep=","), file=output, append = T, fill = T)
   # Mientras no se obtenga un resultado
   while (resultado == FALSE) {
     #Se evalua qué año es el menor
@@ -99,7 +97,10 @@ validarOrden <- function(registro, datos, output) {
 #Obteniendo el CSV
 coursesData <- read.csv('analisis_descriptivo/courses_data_analisis_categorias_nivel_estado.csv')
 
-apply(coursesData, 1, validarOrden, datos = coursesData, output = 'Tratamiento Rendimiento/estudiantes-consecutivos.csv')
+#Archivo resultante
+archivoResultante = 'Tratamiento Rendimiento/estudiantes-consecutivos.csv'
+cat(paste(c('correo'), c('resultado'), c('lanzamientos'), sep=","), file=archivoResultante, append = T, fill = T)
+apply(coursesData, 1, validarOrden, datos = coursesData, output = archivoResultante)
 
 #Buscar la informacion de un correo en especifico
 infoPersona <- coursesData[which(coursesData$correo == c('CIBERTECMO@5130MOcibertec.pe')),]
