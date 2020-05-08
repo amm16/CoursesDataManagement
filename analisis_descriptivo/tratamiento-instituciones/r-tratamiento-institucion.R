@@ -37,12 +37,20 @@ names(DataF)[length(names(DataF))] <- "institucion" ##Cambiamos nombre a institu
 write.csv(DataF,"tratamiento-institucion.csv",row.names = FALSE)
 
 
+
+
 #cambiar a factor
 #DataF$institucion <- as.factor(DataF$institucion)
 #prop.table(table(DataF$equivalente))
 
 #Analisis Descriptivo de instituciones despues de tratamiento
+DataF <- read.csv("tratamiento-institucion.csv",header = T,sep = ",",encoding = "UTF-8")
+
 df_per_Institucion<-as.data.frame(prop.table(table(DataF$institucion))) %>% arrange(Freq)
+
+#eliminar registro
+#Se excluye valor atipico
+df_per_Institucion <- df_per_Institucion[!(df_per_Institucion$Var1 %in%c("UEM")),]
 
 boxplot(df_per_Institucion$Freq)
 
