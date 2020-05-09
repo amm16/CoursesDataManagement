@@ -5,7 +5,7 @@
 
 
 # Obteniendo el CSV base
-coursesData <- read.csv('analisis_descriptivo/tratamiento-instituciones/courses_data_cleaned_ranking_idh.csv')
+coursesData <- read.csv('analisis_descriptivo/analisis-estado-nivelDelCurso-institucion/analisis_descriptivo_estado_institucion_nivelDelCurso.csv')
 
 
 # Validacion de los Lanzamientos Consecutivos
@@ -16,7 +16,7 @@ summary(coursesData$nivelDelCurso)
 
 # Clasificacion de las notas finales
 archivoResultante2 = 'Tratamiento Rendimiento/notaFinal-categorizada.csv'
-cat(paste(c('correo'), c('rendimiento'), sep=","), file=archivoResultante2, append = T, fill = T)
+cat(paste(c('correo'), c('rendimiento'), c('mediaNotas'), sep=","), file=archivoResultante2, append = T, fill = T)
 apply(coursesData, 1, validarNotaFinal, datos = coursesData, output = archivoResultante2)
 
 
@@ -25,10 +25,20 @@ library(dplyr)
 lanzamientosConsecutivos <- read.csv('Tratamiento Rendimiento/lanzamientos-consecutivos.csv')
 notasCategorizadas <- read.csv('Tratamiento Rendimiento/notaFinal-categorizada.csv')
 
+str(coursesData)
+
 lanzamientosConsecutivos <- lanzamientosConsecutivos%>% distinct(correo, .keep_all = TRUE)
 lanzamientosConsecutivos <- lanzamientosConsecutivos%>% select(correo, asistencia, lanzamientosMatriculados)
+
 coursesData <- left_join(coursesData, lanzamientosConsecutivos, by=c("correo"="correo"))
+
+notasCategorizadas <- notasCategorizadas%>% distinct(correo, .keep_all = TRUE)
+notasCategorizadas <- notasCategorizadas%>% select(correo, rendimiento, mediaNotas)
+
+coursesData <- left_join(coursesData, notasCategorizadas, by=c("correo"="correo"))
+
 str(coursesData)
+
 write.csv(coursesData, "Tratamiento Rendimiento/dataset-asistencia-lanzamientos.csv", row.names = FALSE)
 
 
@@ -159,6 +169,6 @@ validarNotaFinal <- function(registro, datos, output) {
     resultado = 'reprobado'
   }
 
-  cat(paste(registro[3], resultado, sep=","), file=output, append = T, fill = T)
+  cat(paste(registro[3], resultado, mediaNotas, sep=","), file=output, append = T, fill = T)
 }
 
