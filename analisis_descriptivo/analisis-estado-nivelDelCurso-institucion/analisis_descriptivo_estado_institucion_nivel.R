@@ -1,5 +1,5 @@
 setwd("~/");
-setwd("Documents/Seminario/CoursesDataManagement/analisis_descriptivo/tratamiento-estado-nivelDelCurso")
+setwd("Documents/Seminario/CoursesDataManagement/analisis_descriptivo/analisis-estado-nivelDelCurso-institucion")
 getwd()
 ############## Libraries ##############
 library(dplyr)
@@ -82,29 +82,7 @@ boxplot(df_per_Estado$Freq)
 hist(df_per_Estado$Freq)
 
 qqnorm(df_per_Estado$Freq)
-#Agrupar "No Show" y "Dropout"
-df_per_Estado[df_per_Estado$Var1 %in%c("No Show","Dropout"),"categoria"] <-"Dropout"
-df_per_Estado[df_per_Estado$Var1 %in%c("Fail"),"categoria"] <-"Fail"
-df_per_Estado[df_per_Estado$Var1 %in%c("Pass"),"categoria"] <-"Pass"
-df_per_Estado <- df_per_Estado %>% select(Var1,categoria)
 
-#Unir la categoria a coursesData con un left join
-coursesData <- left_join(coursesData,df_per_Estado,by=c("estado"="Var1"))
-
-#Eliminar la columna de estado
-coursesData <- coursesData[,!(names(coursesData) %in% c("estado"))]
-
-#Cambiar el nombre de categoria a estado
-
-names(coursesData)[length(names(coursesData))] <- "estado"
-#Hacer nuevamente el analisis de los cambios
-df_per_Estado <-as.data.frame(prop.table(table(coursesData$estado))) %>% arrange(Freq)
-
-boxplot(df_per_Estado$Freq)
-
-hist(df_per_Estado$Freq)
-
-qqnorm(df_per_Estado$Freq)
 
 
 
