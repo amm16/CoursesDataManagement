@@ -20,17 +20,17 @@ cat(paste(c('correo'), c('rendimiento'), sep=","), file=archivoResultante2, appe
 apply(coursesData, 1, validarNotaFinal, datos = coursesData, output = archivoResultante2)
 
 
+library(dplyr)
+
 lanzamientosConsecutivos <- read.csv('Tratamiento Rendimiento/lanzamientos-consecutivos.csv')
 notasCategorizadas <- read.csv('Tratamiento Rendimiento/notaFinal-categorizada.csv')
 
-summary(lanzamientosConsecutivos$asistencia)
-summary(notasCategorizadas$rendimiento)
+lanzamientosConsecutivos <- lanzamientosConsecutivos%>% distinct(correo, .keep_all = TRUE)
+lanzamientosConsecutivos <- lanzamientosConsecutivos%>% select(correo, asistencia, lanzamientosMatriculados)
+coursesData <- left_join(coursesData, lanzamientosConsecutivos, by=c("correo"="correo"))
+str(coursesData)
+write.csv(coursesData, "Tratamiento Rendimiento/dataset-asistencia-lanzamientos.csv", row.names = FALSE)
 
-# Clasificacion del rendimiento
-archivoRendimiento = 'Tratamiento Rendimiento/dataset-rendimiento-estudiantes.csv'
-apply(coursesData, 1, validarRendimiento, datos = coursesData, lanzamientos = lanzamientosConsecutivos, notaFinal = notasCategorizadas, output = archivoRendimiento)
-
-infoLanzamiento <- coursesData[which(coursesData$correo == 'UAMDS@1032DSlaureate.com.br')]
 
 
 validarLanzamientos <- function(registro, datos, output) {
@@ -132,7 +132,7 @@ validarLanzamientos <- function(registro, datos, output) {
     }
   }
   
-  cat(paste(registro[3], resultado, orden, sep=","), file=output, append = T, fill = T)
+  cat(paste(registro[3], resultado, count, sep=","), file=output, append = T, fill = T)
 }
 
 
@@ -162,71 +162,3 @@ validarNotaFinal <- function(registro, datos, output) {
   cat(paste(registro[3], resultado, sep=","), file=output, append = T, fill = T)
 }
 
-validarRendimiento <- function(registro, datos, lanzamientos, notaFinal, output) {
-  infoLanzamiento <- datos[which(datos$correo == registro[3])]
-  infoNotaFinal <- datos[which(datos$correo == registro[3])]
-  
-  if (c('sobresaliente') %in% infoLanzamiento$asistencia) {
-    if (c('sobresaliente') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'sobresaliente'
-    } else if (c('muy bueno') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'sobresaliente'
-    } else if (c('bueno') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'muy bueno'
-    } else if (c('necesita mejorar') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'bueno'
-    } else if (c('reprobado') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'necesita mejorar'
-    }
-  } else if (c('muy buena') %in% infoLanzamiento$asistencia) {
-    if (c('sobresaliente') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'sobresaliente'
-    } else if (c('muy bueno') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'muy bueno'
-    } else if (c('bueno') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'bueno'
-    } else if (c('necesita mejorar') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'necesita mejorar'
-    } else if (c('reprobado') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'reprobado'
-    }
-  } else if (c('buena') %in% infoLanzamiento$asistencia) {
-    if (c('sobresaliente') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'muy bueno'
-    } else if (c('muy bueno') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'bueno'
-    } else if (c('bueno') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'bueno'
-    } else if (c('necesita mejorar') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'necesita mejorar'
-    } else if (c('reprobado') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'reprobado'
-    }
-  } else if (c('faltante') %in% infoLanzamiento$asistencia) {
-    if (c('sobresaliente') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'bueno'
-    } else if (c('muy bueno') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'bueno'
-    } else if (c('bueno') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'necesita mejorar'
-    } else if (c('necesita mejorar') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'reprobado'
-    } else if (c('reprobado') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'reprobado'
-    }
-  } else if (c('abandono') %in% infoLanzamiento$asistencia) {
-    if (c('sobresaliente') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'bueno'
-    } else if (c('muy bueno') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'necesita mejorar'
-    } else if (c('bueno') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'necesita mejorar'
-    } else if (c('necesita mejorar') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'reprobado'
-    } else if (c('reprobado') %in% infoNotaFinal$rendimiento) {
-      registro$desempeño <- 'reprobado'
-    }
-  }
-  
-  cat(paste(registro, sep=","), file=output, append = T, fill = T)
-}
