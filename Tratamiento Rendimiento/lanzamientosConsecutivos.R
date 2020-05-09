@@ -12,70 +12,26 @@ coursesData <- read.csv('analisis_descriptivo/tratamiento-instituciones/courses_
 archivoResultante1 = 'Tratamiento Rendimiento/lanzamientos-consecutivos.csv'
 cat(paste(c('correo'), c('asistencia'), c('lanzamientosMatriculados'), sep=","), file=archivoResultante1, append = T, fill = T)
 apply(coursesData, 1, validarLanzamientos, datos = coursesData, output = archivoResultante1)
-
+summary(coursesData$nivelDelCurso)
 
 # Clasificacion de las notas finales
 archivoResultante2 = 'Tratamiento Rendimiento/notaFinal-categorizada.csv'
-cat(paste(c('correo'), c('resultado'), sep=","), file=archivoResultante2, append = T, fill = T)
+cat(paste(c('correo'), c('rendimiento'), sep=","), file=archivoResultante2, append = T, fill = T)
 apply(coursesData, 1, validarNotaFinal, datos = coursesData, output = archivoResultante2)
 
 
-
-# Analisis Descriptivo
 lanzamientosConsecutivos <- read.csv('Tratamiento Rendimiento/lanzamientos-consecutivos.csv')
 notasCategorizadas <- read.csv('Tratamiento Rendimiento/notaFinal-categorizada.csv')
-str(lanzamientosConsecutivos)
-str(notasCategorizadas)
 
-#Libraries
-library(dplyr)
-
-#Analisis Nota Final
-df_per <-as.data.frame(prop.table(table(notasCategorizadas$resultado)))
-#Ordenar por frecuencia
-df_per <- df_per %>% arrange(Freq)
-
-#Boxplot de frecuencia/ Caja de Bigotes para identificar valores atipicos y luego excluirlos
-#Mandar como parametro un vector numero continuo
-boxplot(df_per$Freq)
-
-#Histogramas - densidad de los valores
-hist(df_per$Freq)
-
-#Verificar si la distribucion es normal QQ-plot - si se mira una diagonal es distribucion normal
-qqnorm(df_per$Freq)
-
-
-
-#Analisis Asistencia Lanzamientos 
-df_per <-as.data.frame(prop.table(table(lanzamientosConsecutivos$asistencia)))
-#Ordenar por frecuencia
-df_per <- df_per %>% arrange(Freq)
-
-#Boxplot de frecuencia/ Caja de Bigotes para identificar valores atipicos y luego excluirlos
-#Mandar como parametro un vector numero continuo
-boxplot(df_per$Freq)
-
-#Histogramas - densidad de los valores
-hist(df_per$Freq)
-
-#Verificar si la distribucion es normal QQ-plot - si se mira una diagonal es distribucion normal
-qqnorm(df_per$Freq)
-
-
-
+summary(lanzamientosConsecutivos$asistencia)
+summary(notasCategorizadas$rendimiento)
 
 # Clasificacion del rendimiento
-# archivoRendimiento = 'Tratamiento Rendimiento/rendimiento-estudiantes.csv'
-# cat(paste(c('correo'), c('nivelRendimiento'), sep=","), file=archivoRendimiento, append = T, fill = T)
-# apply(coursesData, 1, validarRendimiento, lanzamientos = lanzamientosConsecutivos, notaFinal = notasCategorizadas, output = archivoRendimiento)
+archivoRendimiento = 'Tratamiento Rendimiento/dataset-rendimiento-estudiantes.csv'
+apply(coursesData, 1, validarRendimiento, datos = coursesData, lanzamientos = lanzamientosConsecutivos, notaFinal = notasCategorizadas, output = archivoRendimiento)
 
+infoLanzamiento <- coursesData[which(coursesData$correo == 'UAMDS@1032DSlaureate.com.br')]
 
-#Buscar la informacion de un correo en especifico
-infoPersona <- coursesData[which(coursesData$correo == c('CIBERTECMO@5130MOcibertec.pe')),]
-lanzamientosRegistrados <- data.frame(lanzamientos = infoPersona$lanzamiento, año = infoPersona$a.f1.o, notaFinal = infoPersona$notaFinal)
-mediaNotas = mean(lanzamientosRegistrados$notaFinal)
-print(lanzamientosRegistrados)
 
 validarLanzamientos <- function(registro, datos, output) {
   # El orden de los lanzamientos es:
@@ -206,6 +162,71 @@ validarNotaFinal <- function(registro, datos, output) {
   cat(paste(registro[3], resultado, sep=","), file=output, append = T, fill = T)
 }
 
-# validarRendimiento <- function(registro, lanzamientos, notaFinal, output) {
-#   
-# }
+validarRendimiento <- function(registro, datos, lanzamientos, notaFinal, output) {
+  infoLanzamiento <- datos[which(datos$correo == registro[3])]
+  infoNotaFinal <- datos[which(datos$correo == registro[3])]
+  
+  if (c('sobresaliente') %in% infoLanzamiento$asistencia) {
+    if (c('sobresaliente') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'sobresaliente'
+    } else if (c('muy bueno') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'sobresaliente'
+    } else if (c('bueno') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'muy bueno'
+    } else if (c('necesita mejorar') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'bueno'
+    } else if (c('reprobado') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'necesita mejorar'
+    }
+  } else if (c('muy buena') %in% infoLanzamiento$asistencia) {
+    if (c('sobresaliente') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'sobresaliente'
+    } else if (c('muy bueno') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'muy bueno'
+    } else if (c('bueno') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'bueno'
+    } else if (c('necesita mejorar') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'necesita mejorar'
+    } else if (c('reprobado') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'reprobado'
+    }
+  } else if (c('buena') %in% infoLanzamiento$asistencia) {
+    if (c('sobresaliente') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'muy bueno'
+    } else if (c('muy bueno') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'bueno'
+    } else if (c('bueno') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'bueno'
+    } else if (c('necesita mejorar') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'necesita mejorar'
+    } else if (c('reprobado') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'reprobado'
+    }
+  } else if (c('faltante') %in% infoLanzamiento$asistencia) {
+    if (c('sobresaliente') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'bueno'
+    } else if (c('muy bueno') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'bueno'
+    } else if (c('bueno') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'necesita mejorar'
+    } else if (c('necesita mejorar') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'reprobado'
+    } else if (c('reprobado') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'reprobado'
+    }
+  } else if (c('abandono') %in% infoLanzamiento$asistencia) {
+    if (c('sobresaliente') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'bueno'
+    } else if (c('muy bueno') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'necesita mejorar'
+    } else if (c('bueno') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'necesita mejorar'
+    } else if (c('necesita mejorar') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'reprobado'
+    } else if (c('reprobado') %in% infoNotaFinal$rendimiento) {
+      registro$desempeño <- 'reprobado'
+    }
+  }
+  
+  cat(paste(registro, sep=","), file=output, append = T, fill = T)
+}
