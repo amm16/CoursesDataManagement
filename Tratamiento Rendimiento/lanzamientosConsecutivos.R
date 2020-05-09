@@ -1,5 +1,27 @@
 #setwd("C:/Users/Asus ROG i7/Desktop/UNAH/Seminario/Repo Seminario/CoursesDataManagement")
 
+validarRendimiento <- function(registro, datos, output) {
+  
+  infoPersona <- datos[which(datos$correo == registro[4]),]
+  lanzamientosRegistrados <- data.frame(lanzamientos = infoPersona$lanzamiento, año = infoPersona$aÃ.o, notaFinal = infoPersona$notaFinal)
+  
+  mediaNotas = mean(lanzamientosRegistrados$notaFinal)
+
+  if (mediaNotas >= 85) {
+    resultado = c('rendimiento alto')
+    
+  } else if (mediaNotas >= 70){
+    resultado = c('rendimiento medio')
+    
+  } else {
+    resultado = c('rendimiento bajo')
+    
+  }
+
+  cat(paste(registro[4], resultado, sep=","), file=output, append = T, fill = T)
+}
+
+
 validarOrden <- function(registro, datos, output) {
   # El orden de los lanzamientos es:
   # Winter -> Spring -> Summer -> Fall
@@ -94,16 +116,22 @@ validarOrden <- function(registro, datos, output) {
   cat(paste(registro[4], resultado, orden, sep=","), file=output, append = T, fill = T)
 }
 
-#Obteniendo el CSV
+# Obteniendo el CSV
 coursesData <- read.csv('analisis_descriptivo/courses_data_analisis_categorias_nivel_estado.csv')
 
-#Archivo resultante
-archivoResultante = 'Tratamiento Rendimiento/estudiantes-consecutivos.csv'
-cat(paste(c('correo'), c('resultado'), c('lanzamientos'), sep=","), file=archivoResultante, append = T, fill = T)
-apply(coursesData, 1, validarOrden, datos = coursesData, output = archivoResultante)
+# Lanzamientos Consecutivos
+archivoResultante1 = 'Tratamiento Rendimiento/estudiantes-consecutivos.csv'
+cat(paste(c('correo'), c('resultado'), c('lanzamientos'), sep=","), file=archivoResultante1, append = T, fill = T)
+apply(coursesData, 1, validarOrden, datos = coursesData, output = archivoResultante1)
+
+# Clasificacion de las notas finales
+archivoResultante2 = 'Tratamiento Rendimiento/rendimiento-estudiantes.csv'
+cat(paste(c('correo'), c('resultado'), sep=","), file=archivoResultante2, append = T, fill = T)
+apply(coursesData, 1, validarRendimiento, datos = coursesData, output = archivoResultante2)
 
 #Buscar la informacion de un correo en especifico
 infoPersona <- coursesData[which(coursesData$correo == c('CIBERTECMO@5130MOcibertec.pe')),]
-lanzamientosRegistrados <- data.frame(lanzamientos = infoPersona$lanzamiento, año = infoPersona$aÃ.o)
+lanzamientosRegistrados <- data.frame(lanzamientos = infoPersona$lanzamiento, año = infoPersona$aÃ.o, notaFinal = infoPersona$notaFinal)
+median(lanzamientosRegistrados$notaFinal)
 print(lanzamientosRegistrados)
 
