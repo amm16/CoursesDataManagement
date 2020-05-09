@@ -41,8 +41,8 @@ qqnorm(df_per_Nivel$Freq)
 #Agrupar niveles en categorias
 df_per_Nivel[df_per_Nivel$Var1 %in%c("Advanced 1"),"categoriaNivelDelCurso"] <-"Advanced"
 df_per_Nivel[df_per_Nivel$Var1 %in%c("Advanced 2","Advanced 3","English at Work 3"),"categoriaNivelDelCurso"] <-"Very Advanced"
-df_per_Nivel[df_per_Nivel$Var1 %in%c("Basic 3","Basic 1","Basic 2","First Discoveries"),"categoriaNivelDelCurso"] <-"Basic"
-df_per_Nivel[df_per_Nivel$Var1 %in%c("Intermediate 1","Intermediate 2","Intermediate 3"),"categoriaNivelDelCurso"] <-"Intermediate"
+df_per_Nivel[df_per_Nivel$Var1 %in%c("Basic 3","Basic 1","Basic 2","Basic 2 ","First Discoveries","First Discoveries "),"categoriaNivelDelCurso"] <-"Basic"
+df_per_Nivel[df_per_Nivel$Var1 %in%c("Intermediate 1","Intermediate 1 ","Intermediate 2","Intermediate 3"),"categoriaNivelDelCurso"] <-"Intermediate"
 
 #Asignar nuevamente el dataframe pero solo seleccionando Var1 y categoriaNivelDelCurso
 df_per_Nivel <- df_per_Nivel %>% select(Var1,categoriaNivelDelCurso)

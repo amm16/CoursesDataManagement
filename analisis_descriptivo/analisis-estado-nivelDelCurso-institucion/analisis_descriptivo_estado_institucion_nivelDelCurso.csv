@@ -544,7 +544,7 @@
 2018,"Spring","UPCGG@7587GGupc.pe","Pass",82.15,"UPC",0.75,187,"Very Advanced"
 2018,"Winter","UPCGG@7587GGupc.pe","Pass",85.23,"UPC",0.75,187,"Advanced"
 2018,"Summer","UPCJA@3362JAupc.pe","Pass",83.91,"UPC",0.75,187,"Advanced"
-2018,"Winter","UPCJO@97JOupc.pe","Pass",87.78,"UPC",0.75,187,NA
+2018,"Winter","UPCJO@97JOupc.pe","Pass",87.78,"UPC",0.75,187,"Intermediate"
 2018,"Spring","UPCJV@5606JVupc.pe","Pass",74.65,"UPC",0.75,187,"Advanced"
 2018,"Summer","UPCJV@5606JVupc.pe","Pass",73.45,"UPC",0.75,187,"Advanced"
 2018,"Winter","UPCJV@5606JVupc.pe","Pass",83,"UPC",0.75,187,"Advanced"
@@ -1351,7 +1351,7 @@
 2018,"Winter","UniRitterDD@5581DDuniritter.edu.br","Fail",37.98,"UNIRITTER",0.759,581,"Basic"
 2018,"Fall","UniRitterDM@3962DMuniritter.edu.br","Fail",12.95,"UNIRITTER",0.759,581,"Intermediate"
 2018,"Winter","UniRitterDN@4371DNuniritter.edu.br","Fail",12,"UNIRITTER",0.759,581,"Basic"
-2018,"Winter","UniRitterDT@9374DTuniritter.edu.br","Fail",13.02,"UNIRITTER",0.759,581,NA
+2018,"Winter","UniRitterDT@9374DTuniritter.edu.br","Fail",13.02,"UNIRITTER",0.759,581,"Basic"
 2018,"Fall","UniRitterFC@5302FClaureate.com.br","Fail",45.38,"UNIRITTER",0.759,581,"Intermediate"
 2018,"Winter","UniRitterFK@8951FKuniritter.edu.br","Fail",46.28,"UNIRITTER",0.759,581,"Basic"
 2018,"Winter","UniRitterGO@294GOuniritter.edu.br","Fail",14.22,"UNIRITTER",0.759,581,"Intermediate"
@@ -2611,7 +2611,7 @@
 2018,"Summer","FADERGSGG@7547GGfadergs.edu.br","Dropout",0,"FADERGS",0.759,1398,"Intermediate"
 2018,"Summer","FADERGSJJ@2393JJfadergs.edu.br","Dropout",0,"FADERGS",0.759,1398,"Advanced"
 2018,"Spring","FADERGSLF@680LFfadergs.edu.br","Dropout",0,"FADERGS",0.759,1398,"Very Advanced"
-2018,"Winter","FADERGSLL@1274LLlaureatedigital.net","Dropout",0,"FADERGS",0.759,1398,NA
+2018,"Winter","FADERGSLL@1274LLlaureatedigital.net","Dropout",0,"FADERGS",0.759,1398,"Intermediate"
 2018,"Spring","FADERGSLS@5826LSfadergs.edu.br","Dropout",0,"FADERGS",0.759,1398,"Very Advanced"
 2018,"Spring","FADERGSLS@6563LSfadergs.edu.br","Dropout",0,"FADERGS",0.759,1398,"Advanced"
 2018,"Winter","FADERGSMC@975MCfadergs.edu.br","Dropout",0,"FADERGS",0.759,1398,"Intermediate"
@@ -2664,7 +2664,7 @@
 2018,"Summer","UnPJS@1585JSunp.br","Dropout",0,"UNP",0.759,403,"Basic"
 2018,"Winter","UnPLF@5207LFunp.br","Dropout",0,"UNP",0.759,403,"Basic"
 2018,"Winter","UnPMM@7362MMunp.br","Dropout",0,"UNP",0.759,403,"Basic"
-2018,"Fall","UNPTC@1411TCunp.br ","Dropout",0,"UNP",0.759,403,NA
+2018,"Fall","UNPTC@1411TCunp.br ","Dropout",0,"UNP",0.759,403,"Basic"
 2018,"Fall","UPCCB@3119CBupc.pe","Dropout",0,"UPC",0.75,187,"Basic"
 2018,"Fall","UPCCT@4471CTlaureate.net","Dropout",0,"UPC",0.75,187,"Intermediate"
 2018,"Summer","UPCEC@9672ECupc.pe","Dropout",0,"UPC",0.75,187,"Intermediate"
@@ -3035,7 +3035,7 @@
 2018,"Summer","FADERGSLF@680LFfadergs.edu.br","No Show",0,"FADERGS",0.759,1398,"Intermediate"
 2018,"Summer","FADERGSLS@7874LSfadergs.edu.br","No Show",0,"FADERGS",0.759,1398,"Advanced"
 2018,"Summer","FADERGSMS@3151MSfadergs.edu.br","No Show",0,"FADERGS",0.759,1398,"Intermediate"
-2018,"Winter","FADERGSNR@4954NRfadergs.edu.br","No Show",0,"FADERGS",0.759,1398,NA
+2018,"Winter","FADERGSNR@4954NRfadergs.edu.br","No Show",0,"FADERGS",0.759,1398,"Basic"
 2018,"Summer","FADERGSRR@7226RRfadergs.edu.br","No Show",0,"FADERGS",0.759,1398,"Basic"
 2018,"Fall","FGJP@8880JPfaculdadeguararapes.edu.br","No Show",0,"UNIFG",0.759,1496,"Basic"
 2018,"Fall","FGNM@2374NMfaculdadeguararapes.edu.br","No Show",0,"UNIFG",0.759,1496,"Intermediate"
