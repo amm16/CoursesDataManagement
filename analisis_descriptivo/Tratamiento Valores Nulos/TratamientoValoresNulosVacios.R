@@ -1,8 +1,5 @@
 ##Tratamiento Valores Nulos
 
-setwd("/")
-setwd("Users/ANA RAQUEL ANDINO/Documents/2020/R")
-getwd()
 DataF <- read.csv("courses_data_cleaned.csv",header = T,sep = ",",encoding = "UTF-8")
 ##DataF <- read.csv("courses_data_analisis_categorias.csv",header = T,sep = ",",encoding = "UTF-8")
 names(DataF) #Nombre de columnas -- Devuelve un vector
@@ -69,6 +66,8 @@ df.Pass <- DataF %>% filter(estado=="Pass") %>% select(notaFinal)
 
 
 table( DataF %>% filter(notaFinal=="#N/A") %>% select(estado))
+prop.table(table(DataF$notaFinal))
+
 table( DataF %>% filter(notaFinal=="") %>% select(estado))
 
 
@@ -88,6 +87,7 @@ df.Pass <- DataF %>% filter(estado=="Pass")
 ##Eliminar registros que tienen nota NA y Vacio
 df.Pass <- df.Pass[!(df.Pass$notaFinal=="#NA"),]
 df.Pass <- df.Pass[!(df.Pass$notaFinal==""),]
+str(df.Pass)
 
 ##Conversiion de factor a numeric
 df.Pass$notaFinal <- as.numeric(levels(df.Pass$notaFinal))[df.Pass$notaFinal]
