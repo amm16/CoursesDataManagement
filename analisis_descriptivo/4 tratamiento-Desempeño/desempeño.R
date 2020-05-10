@@ -5,14 +5,13 @@
 
 
 # Obteniendo el CSV base
-coursesData <- read.csv('analisis_descriptivo/analisis-estado-nivelDelCurso-institucion/analisis_descriptivo_estado_institucion_nivelDelCurso.csv')
+coursesData <- read.csv('analisis_descriptivo/3 tratamiento-NivelEducativo/courses_data_cleaned_ranking_idh.csv')
 
 
 # Validacion de los Lanzamientos Consecutivos
 archivoResultante1 = 'Tratamiento Rendimiento/lanzamientos-consecutivos.csv'
 cat(paste(c('correo'), c('asistencia'), c('lanzamientosMatriculados'), sep=","), file=archivoResultante1, append = T, fill = T)
 apply(coursesData, 1, validarLanzamientos, datos = coursesData, output = archivoResultante1)
-summary(coursesData$nivelDelCurso)
 
 # Clasificacion de las notas finales
 archivoResultante2 = 'Tratamiento Rendimiento/notaFinal-categorizada.csv'
@@ -23,8 +22,6 @@ library(dplyr)
 
 lanzamientosConsecutivos <- read.csv('Tratamiento Rendimiento/lanzamientos-consecutivos.csv')
 notasCategorizadas <- read.csv('Tratamiento Rendimiento/notaFinal-categorizada.csv')
-
-str(coursesData)
 
 # Se eliminan los registros repetidos de correos (ya que todos mantienen la misma informacion)
 lanzamientosConsecutivos <- lanzamientosConsecutivos%>% distinct(correo, .keep_all = TRUE)
@@ -54,14 +51,14 @@ rendimiento <- read.csv('Tratamiento Rendimiento/desempeño.csv')
 
 # Se eliminan los registros repetidos de correos (ya que todos mantienen la misma informacion)
 rendimiento <- rendimiento%>% distinct(correo, .keep_all = TRUE)
-rendimiento <- rendimiento%>% select(correo, desempeño, agrupacion)
+rendimiento <- rendimiento%>% select(correo, desempeño, agrupacionDesempeño)
 
 # Se añade la nueva columna al csv principal
 datasetAsistenciaRendimiento <- left_join(datasetAsistenciaRendimiento, rendimiento, by=c("correo"="correo"))
 
 str(datasetAsistenciaRendimiento)
 
-write.csv(datasetAsistenciaRendimiento, "Tratamiento Rendimiento/dataset-desempeño.csv", row.names = FALSE)
+write.csv(datasetAsistenciaRendimiento, "Tratamiento Rendimiento/courses_data_cleaned_desempeño.csv", row.names = FALSE)
 
 
 
@@ -120,7 +117,7 @@ validarLanzamientos <- function(registro, datos, output) {
       #Si el lanzamiento estaba entre los registrados el ciclo continua
       count = count + 1
       orden = paste(orden, paste(siguiente, año, sep=""), sep="-")
-
+      
     } else {
       
       #Si se llego al final de los lanzamientos se cataloga al estudiante como "recurrente"
@@ -176,20 +173,20 @@ validarNotaFinal <- function(registro, datos, output) {
   
   if (mediaNotas >= 90) {
     resultado = 'sobresaliente'
-
+    
   } else if (mediaNotas >= 80){
     resultado = 'muy bueno'
-
+    
   } else if (mediaNotas >= 70) {
     resultado = 'bueno'
-
+    
   } else if (mediaNotas >= 60) {
     resultado = 'necesita mejorar'
     
   } else {
     resultado = 'reprobado'
   }
-
+  
   cat(paste(registro[3], resultado, mediaNotas, sep=","), file=output, append = T, fill = T)
 }
 
@@ -261,10 +258,10 @@ validarRendimiento <- function(registro, datos, output){
   }
   
   agrupacion <- switch(resultado, 'sobresaliente' = 'buen desempeño', 
-                                  'muy bueno' = 'buen desempeño',
-                                  'bueno' = 'buen desempeño',
-                                  'necesita mejorar' = 'mal desempeño',
-                                  'reprobado' = 'mal desempeño')
+                       'muy bueno' = 'buen desempeño',
+                       'bueno' = 'buen desempeño',
+                       'necesita mejorar' = 'mal desempeño',
+                       'reprobado' = 'mal desempeño')
   
   cat(paste(registro[3], resultado, agrupacion, sep=","), file=output, append = T, fill = T)
 }
