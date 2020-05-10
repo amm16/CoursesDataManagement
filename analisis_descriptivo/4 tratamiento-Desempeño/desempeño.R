@@ -46,14 +46,14 @@ archivoResultante3 = 'analisis_descriptivo/4 tratamiento-Desempeño/desempeño.csv
 cat(paste(c('correo'), c('desempeño'), sep=","), file=archivoResultante3, append = T, fill = T)
 apply(datasetAsistenciaRendimiento, 1, validarRendimiento, datos = datasetAsistenciaRendimiento, output = archivoResultante3)
 
-rendimiento <- read.csv('analisis_descriptivo/4 tratamiento-Desempeño/desempeño.csv')
-
+desempeño <- read.csv('analisis_descriptivo/4 tratamiento-Desempeño/desempeño.csv')
+summary(desempeño$desempeño)
 # Se eliminan los registros repetidos de correos (ya que todos mantienen la misma informacion)
-rendimiento <- rendimiento%>% distinct(correo, .keep_all = TRUE)
-rendimiento <- rendimiento%>% select(correo, desempeño)
+desempeño <- desempeño%>% distinct(correo, .keep_all = TRUE)
+desempeño <- desempeño%>% select(correo, desempeño)
 
 # Se añade la nueva columna al csv principal
-datasetAsistenciaRendimiento <- left_join(datasetAsistenciaRendimiento, rendimiento, by=c("correo"="correo"))
+datasetAsistenciaRendimiento <- left_join(datasetAsistenciaRendimiento, desempeño, by=c("correo"="correo"))
 
 str(datasetAsistenciaRendimiento)
 
@@ -196,63 +196,63 @@ validarRendimiento <- function(registro, datos, output){
   
   if (c('sobresaliente') %in% asistencia_rendimiento$asistencia) {
     if (c('sobresaliente') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'sobresaliente'
+      resultado <- 'excelente'
     } else if (c('muy bueno') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'sobresaliente'
+      resultado <- 'excelente'
     } else if (c('bueno') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'muy bueno'
+      resultado <- 'excelente'
     } else if (c('necesita mejorar') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'bueno'
+      resultado <- 'buen'
     } else if (c('reprobado') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'necesita mejorar'
+      resultado <- 'buen'
     }
   } else if (c('muy buena') %in% asistencia_rendimiento$asistencia) {
     if (c('sobresaliente') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'sobresaliente'
+      resultado <- 'excelente'
     } else if (c('muy bueno') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'muy bueno'
+      resultado <- 'buen'
     } else if (c('bueno') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'bueno'
+      resultado <- 'buen'
     } else if (c('necesita mejorar') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'necesita mejorar'
+      resultado <- 'buen'
     } else if (c('reprobado') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'reprobado'
+      resultado <- 'mal'
     }
   } else if (c('buena') %in% asistencia_rendimiento$asistencia) {
     if (c('sobresaliente') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'muy bueno'
+      resultado <- 'excelente'
     } else if (c('muy bueno') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'bueno'
+      resultado <- 'buen'
     } else if (c('bueno') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'bueno'
+      resultado <- 'buen'
     } else if (c('necesita mejorar') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'necesita mejorar'
+      resultado <- 'buen'
     } else if (c('reprobado') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'reprobado'
+      resultado <- 'mal'
     }
   } else if (c('faltante') %in% asistencia_rendimiento$asistencia) {
     if (c('sobresaliente') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'bueno'
+      resultado <- 'buen'
     } else if (c('muy bueno') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'bueno'
+      resultado <- 'buen'
     } else if (c('bueno') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'necesita mejorar'
+      resultado <- 'buen'
     } else if (c('necesita mejorar') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'reprobado'
+      resultado <- 'mal'
     } else if (c('reprobado') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'reprobado'
+      resultado <- 'mal'
     }
   } else if (c('abandono') %in% asistencia_rendimiento$asistencia) {
     if (c('sobresaliente') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'bueno'
+      resultado <- 'buen'
     } else if (c('muy bueno') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'necesita mejorar'
+      resultado <- 'mal'
     } else if (c('bueno') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'necesita mejorar'
+      resultado <- 'mal'
     } else if (c('necesita mejorar') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'reprobado'
+      resultado <- 'mal'
     } else if (c('reprobado') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'reprobado'
+      resultado <- 'mal'
     }
   }
   
