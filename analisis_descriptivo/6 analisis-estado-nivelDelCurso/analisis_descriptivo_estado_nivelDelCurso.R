@@ -1,24 +1,13 @@
 setwd("~/");
-setwd("Documents/Seminario/CoursesDataManagement/analisis_descriptivo/analisis-estado-nivelDelCurso-institucion")
+setwd("Documents/Seminario/CoursesDataManagement/analisis_descriptivo/6 analisis-estado-nivelDelCurso")
 getwd()
 ############## Libraries ##############
 library(dplyr)
 #######################################
 
-#Leer archivo csv con el tratamiento de nulos 
-coursesData <- read.csv("courses_data_cleaned_ranking_idh.csv",header = T,sep = ",", encoding = "UTF-8")
+#Leer archivo csv despues de haber eliminado correo e insittucion
+coursesData <- read.csv("courses_data_cleaned_version_2",header = T,sep = ",", encoding = "UTF-8")
 
-
-############### Analisis Descriptivo institucion ###############
-df_per_Institucion<-as.data.frame(prop.table(table(coursesData$institucion))) %>% arrange(Freq)
-
-boxplot(df_per_Institucion$Freq)
-
-hist(df_per_Institucion$Freq)
-
-qqnorm(df_per_Institucion$Freq)
-
-###########################################################
 
 ############### Analisis Descriptivo nivelDelCurso ###############
 
@@ -83,8 +72,4 @@ hist(df_per_Estado$Freq)
 
 qqnorm(df_per_Estado$Freq)
 
-
-
-
-
-write.csv(coursesData,"analisis_descriptivo_estado_institucion_nivelDelCurso.csv", row.names = FALSE)
+write.csv(coursesData,"courses_data_cleaned_version_3.csv", row.names = FALSE)
