@@ -9,23 +9,23 @@ coursesData <- read.csv('analisis_descriptivo/3 tratamiento-NivelEducativo/cours
 
 
 # Validacion de los Lanzamientos Consecutivos
-archivoResultante1 = 'Tratamiento Rendimiento/lanzamientos-consecutivos.csv'
-cat(paste(c('correo'), c('asistencia'), c('lanzamientosMatriculados'), sep=","), file=archivoResultante1, append = T, fill = T)
+archivoResultante1 = 'analisis_descriptivo/4 tratamiento-Desempeño/lanzamientos-consecutivos.csv'
+cat(paste(c('correo'), c('asistencia'), sep=","), file=archivoResultante1, append = T, fill = T)
 apply(coursesData, 1, validarLanzamientos, datos = coursesData, output = archivoResultante1)
 
 # Clasificacion de las notas finales
-archivoResultante2 = 'Tratamiento Rendimiento/notaFinal-categorizada.csv'
+archivoResultante2 = 'analisis_descriptivo/4 tratamiento-Desempeño/notaFinal-categorizada.csv'
 cat(paste(c('correo'), c('rendimiento'), c('mediaNotas'), sep=","), file=archivoResultante2, append = T, fill = T)
 apply(coursesData, 1, validarNotaFinal, datos = coursesData, output = archivoResultante2)
 
 library(dplyr)
 
-lanzamientosConsecutivos <- read.csv('Tratamiento Rendimiento/lanzamientos-consecutivos.csv')
-notasCategorizadas <- read.csv('Tratamiento Rendimiento/notaFinal-categorizada.csv')
+lanzamientosConsecutivos <- read.csv('analisis_descriptivo/4 tratamiento-Desempeño/lanzamientos-consecutivos.csv')
+notasCategorizadas <- read.csv('analisis_descriptivo/4 tratamiento-Desempeño/notaFinal-categorizada.csv')
 
 # Se eliminan los registros repetidos de correos (ya que todos mantienen la misma informacion)
 lanzamientosConsecutivos <- lanzamientosConsecutivos%>% distinct(correo, .keep_all = TRUE)
-lanzamientosConsecutivos <- lanzamientosConsecutivos%>% select(correo, asistencia, lanzamientosMatriculados)
+lanzamientosConsecutivos <- lanzamientosConsecutivos%>% select(correo, asistencia)
 
 # Se añade la nueva columna al csv principal
 coursesData <- left_join(coursesData, lanzamientosConsecutivos, by=c("correo"="correo"))
@@ -37,28 +37,27 @@ notasCategorizadas <- notasCategorizadas%>% select(correo, rendimiento, mediaNot
 # Se añade la nueva columna al csv principal
 coursesData <- left_join(coursesData, notasCategorizadas, by=c("correo"="correo"))
 
-write.csv(coursesData, "Tratamiento Rendimiento/dataset-asistencia-rendimiento.csv", row.names = FALSE)
+write.csv(coursesData, "analisis_descriptivo/4 tratamiento-Desempeño/dataset-asistencia-rendimiento.csv", row.names = FALSE)
 
 # Clasificacion del desempeño
-datasetAsistenciaRendimiento <- read.csv('Tratamiento Rendimiento/dataset-asistencia-rendimiento.csv')
-summary(datasetAsistenciaRendimiento)
+datasetAsistenciaRendimiento <- read.csv('analisis_descriptivo/4 tratamiento-Desempeño/dataset-asistencia-rendimiento.csv')
 
-archivoResultante3 = 'Tratamiento Rendimiento/desempeño.csv'
-cat(paste(c('correo'), c('desempeño'), c('agrupacionDesempeño'), sep=","), file=archivoResultante3, append = T, fill = T)
+archivoResultante3 = 'analisis_descriptivo/4 tratamiento-Desempeño/desempeño.csv'
+cat(paste(c('correo'), c('desempeño'), sep=","), file=archivoResultante3, append = T, fill = T)
 apply(datasetAsistenciaRendimiento, 1, validarRendimiento, datos = datasetAsistenciaRendimiento, output = archivoResultante3)
 
-rendimiento <- read.csv('Tratamiento Rendimiento/desempeño.csv')
+rendimiento <- read.csv('analisis_descriptivo/4 tratamiento-Desempeño/desempeño.csv')
 
 # Se eliminan los registros repetidos de correos (ya que todos mantienen la misma informacion)
 rendimiento <- rendimiento%>% distinct(correo, .keep_all = TRUE)
-rendimiento <- rendimiento%>% select(correo, desempeño, agrupacionDesempeño)
+rendimiento <- rendimiento%>% select(correo, desempeño)
 
 # Se añade la nueva columna al csv principal
 datasetAsistenciaRendimiento <- left_join(datasetAsistenciaRendimiento, rendimiento, by=c("correo"="correo"))
 
 str(datasetAsistenciaRendimiento)
 
-write.csv(datasetAsistenciaRendimiento, "Tratamiento Rendimiento/courses_data_cleaned_desempeño.csv", row.names = FALSE)
+write.csv(datasetAsistenciaRendimiento, "analisis_descriptivo/4 tratamiento-Desempeño/courses_data_cleaned_desempeño.csv", row.names = FALSE)
 
 
 
@@ -161,7 +160,7 @@ validarLanzamientos <- function(registro, datos, output) {
     }
   }
   
-  cat(paste(registro[3], resultado, count, sep=","), file=output, append = T, fill = T)
+  cat(paste(registro[3], resultado, sep=","), file=output, append = T, fill = T)
 }
 
 validarNotaFinal <- function(registro, datos, output) {
@@ -257,12 +256,6 @@ validarRendimiento <- function(registro, datos, output){
     }
   }
   
-  agrupacion <- switch(resultado, 'sobresaliente' = 'buen desempeño', 
-                       'muy bueno' = 'buen desempeño',
-                       'bueno' = 'buen desempeño',
-                       'necesita mejorar' = 'mal desempeño',
-                       'reprobado' = 'mal desempeño')
-  
-  cat(paste(registro[3], resultado, agrupacion, sep=","), file=output, append = T, fill = T)
+  cat(paste(registro[3], resultado, sep=","), file=output, append = T, fill = T)
 }
 
