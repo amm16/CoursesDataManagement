@@ -19,7 +19,6 @@ archivoResultante2 = 'Tratamiento Rendimiento/notaFinal-categorizada.csv'
 cat(paste(c('correo'), c('rendimiento'), c('mediaNotas'), sep=","), file=archivoResultante2, append = T, fill = T)
 apply(coursesData, 1, validarNotaFinal, datos = coursesData, output = archivoResultante2)
 
-
 library(dplyr)
 
 lanzamientosConsecutivos <- read.csv('Tratamiento Rendimiento/lanzamientos-consecutivos.csv')
@@ -37,9 +36,25 @@ notasCategorizadas <- notasCategorizadas%>% select(correo, rendimiento, mediaNot
 
 coursesData <- left_join(coursesData, notasCategorizadas, by=c("correo"="correo"))
 
-str(coursesData)
 
-write.csv(coursesData, "Tratamiento Rendimiento/dataset-asistencia-lanzamientos.csv", row.names = FALSE)
+# Clasificacion del desempeño
+datasetAsistenciaRendimiento <- read.csv('Tratamiento Rendimiento/dataset-asistencia-rendimiento.csv')
+summary(datasetAsistenciaRendimiento)
+
+archivoResultante3 = 'Tratamiento Rendimiento/desempeño.csv'
+cat(paste(c('correo'), c('desempeño'), c('agrupacionDesempeño'), sep=","), file=archivoResultante3, append = T, fill = T)
+apply(datasetAsistenciaRendimiento, 1, validarRendimiento, datos = datasetAsistenciaRendimiento, output = archivoResultante3)
+
+rendimiento <- read.csv('Tratamiento Rendimiento/desempeño.csv')
+
+rendimiento <- rendimiento%>% distinct(correo, .keep_all = TRUE)
+rendimiento <- rendimiento%>% select(correo, desempeño, agrupacion)
+
+datasetAsistenciaRendimiento <- left_join(datasetAsistenciaRendimiento, rendimiento, by=c("correo"="correo"))
+
+str(datasetAsistenciaRendimiento)
+
+write.csv(datasetAsistenciaRendimiento, "Tratamiento Rendimiento/dataset-desempeño.csv", row.names = FALSE)
 
 
 
@@ -145,7 +160,6 @@ validarLanzamientos <- function(registro, datos, output) {
   cat(paste(registro[3], resultado, count, sep=","), file=output, append = T, fill = T)
 }
 
-
 validarNotaFinal <- function(registro, datos, output) {
   
   infoPersona <- datos[which(datos$correo == registro[3]),]
@@ -170,5 +184,81 @@ validarNotaFinal <- function(registro, datos, output) {
   }
 
   cat(paste(registro[3], resultado, mediaNotas, sep=","), file=output, append = T, fill = T)
+}
+
+validarRendimiento <- function(registro, datos, output){
+  
+  infoPersona <- datos[which(datos$correo == registro[3]),]
+  asistencia_rendimiento <- data.frame(asistencia = infoPersona$asistencia, rendimiento = infoPersona$rendimiento)
+  
+  if (c('sobresaliente') %in% asistencia_rendimiento$asistencia) {
+    if (c('sobresaliente') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'sobresaliente'
+    } else if (c('muy bueno') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'sobresaliente'
+    } else if (c('bueno') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'muy bueno'
+    } else if (c('necesita mejorar') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'bueno'
+    } else if (c('reprobado') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'necesita mejorar'
+    }
+  } else if (c('muy buena') %in% asistencia_rendimiento$asistencia) {
+    if (c('sobresaliente') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'sobresaliente'
+    } else if (c('muy bueno') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'muy bueno'
+    } else if (c('bueno') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'bueno'
+    } else if (c('necesita mejorar') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'necesita mejorar'
+    } else if (c('reprobado') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'reprobado'
+    }
+  } else if (c('buena') %in% asistencia_rendimiento$asistencia) {
+    if (c('sobresaliente') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'muy bueno'
+    } else if (c('muy bueno') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'bueno'
+    } else if (c('bueno') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'bueno'
+    } else if (c('necesita mejorar') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'necesita mejorar'
+    } else if (c('reprobado') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'reprobado'
+    }
+  } else if (c('faltante') %in% asistencia_rendimiento$asistencia) {
+    if (c('sobresaliente') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'bueno'
+    } else if (c('muy bueno') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'bueno'
+    } else if (c('bueno') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'necesita mejorar'
+    } else if (c('necesita mejorar') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'reprobado'
+    } else if (c('reprobado') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'reprobado'
+    }
+  } else if (c('abandono') %in% asistencia_rendimiento$asistencia) {
+    if (c('sobresaliente') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'bueno'
+    } else if (c('muy bueno') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'necesita mejorar'
+    } else if (c('bueno') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'necesita mejorar'
+    } else if (c('necesita mejorar') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'reprobado'
+    } else if (c('reprobado') %in% asistencia_rendimiento$rendimiento) {
+      resultado <- 'reprobado'
+    }
+  }
+  
+  agrupacion <- switch(resultado, 'sobresaliente' = 'buen desempeño', 
+                                  'muy bueno' = 'buen desempeño',
+                                  'bueno' = 'buen desempeño',
+                                  'necesita mejorar' = 'mal desempeño',
+                                  'reprobado' = 'mal desempeño')
+  
+  cat(paste(registro[3], resultado, agrupacion, sep=","), file=output, append = T, fill = T)
 }
 
