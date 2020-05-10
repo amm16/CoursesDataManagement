@@ -26,16 +26,21 @@ notasCategorizadas <- read.csv('Tratamiento Rendimiento/notaFinal-categorizada.c
 
 str(coursesData)
 
+# Se eliminan los registros repetidos de correos (ya que todos mantienen la misma informacion)
 lanzamientosConsecutivos <- lanzamientosConsecutivos%>% distinct(correo, .keep_all = TRUE)
 lanzamientosConsecutivos <- lanzamientosConsecutivos%>% select(correo, asistencia, lanzamientosMatriculados)
 
+# Se añade la nueva columna al csv principal
 coursesData <- left_join(coursesData, lanzamientosConsecutivos, by=c("correo"="correo"))
 
+# Se eliminan los registros repetidos de correos (ya que todos mantienen la misma informacion)
 notasCategorizadas <- notasCategorizadas%>% distinct(correo, .keep_all = TRUE)
 notasCategorizadas <- notasCategorizadas%>% select(correo, rendimiento, mediaNotas)
 
+# Se añade la nueva columna al csv principal
 coursesData <- left_join(coursesData, notasCategorizadas, by=c("correo"="correo"))
 
+write.csv(coursesData, "Tratamiento Rendimiento/dataset-asistencia-rendimiento.csv", row.names = FALSE)
 
 # Clasificacion del desempeño
 datasetAsistenciaRendimiento <- read.csv('Tratamiento Rendimiento/dataset-asistencia-rendimiento.csv')
@@ -47,9 +52,11 @@ apply(datasetAsistenciaRendimiento, 1, validarRendimiento, datos = datasetAsiste
 
 rendimiento <- read.csv('Tratamiento Rendimiento/desempeño.csv')
 
+# Se eliminan los registros repetidos de correos (ya que todos mantienen la misma informacion)
 rendimiento <- rendimiento%>% distinct(correo, .keep_all = TRUE)
 rendimiento <- rendimiento%>% select(correo, desempeño, agrupacion)
 
+# Se añade la nueva columna al csv principal
 datasetAsistenciaRendimiento <- left_join(datasetAsistenciaRendimiento, rendimiento, by=c("correo"="correo"))
 
 str(datasetAsistenciaRendimiento)
