@@ -23,7 +23,7 @@ ggplot(survey) +
   geom_bar(position = "fill") +
   theme(axis.text.x = element_text(angle = 45))
 
-##Pearson's Chi-squared test p-value = 0.0003907
+##Pearson's Chi-squared test p-value = 2.308e-12
 chisq.test(table(survey$lanzamiento, survey$estado))
 
 summary(survey)
