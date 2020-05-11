@@ -1,7 +1,7 @@
 library(dplyr)
 library(ggplot2)
 
-datasetDesempeño <- read.csv('Tratamiento Rendimiento/dataset-desempeño.csv', sep=",", header = TRUE)
+datasetDesempeño <- read.csv('analisis_descriptivo/4 tratamiento-Desempeño/courses_data_cleaned_desempeño.csv', sep=",", header = TRUE)
 
 prop.table(table(datasetDesempeño$desempeño, datasetDesempeño$estado), 1)
 
@@ -16,5 +16,4 @@ chisq.test(table(datasetDesempeño$desempeño, datasetDesempeño$estado))
 #H_1: Las categorias desempeño y estado son dependientes
 
 #Conclusion:
-# Con p-value < 2.2e-16, menor que 0.05, rechazamos nuestra hipotesis nula, por lo tanto nuestras variables categoricas son dependientes
-# Es decir, que el desempeño del estudiante afecta directamente a la desercion de los estudiantes
+# Con p-value < 2.2e-16, menor que 0.05, no rechazamos nuestra hipotesis nula, por lo tanto decimos que nuestras variables categoricas son independientes

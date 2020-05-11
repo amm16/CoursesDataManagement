@@ -60,7 +60,6 @@ str(datasetAsistenciaRendimiento)
 write.csv(datasetAsistenciaRendimiento, "analisis_descriptivo/4 tratamiento-Desempeño/courses_data_cleaned_desempeño.csv", row.names = FALSE)
 
 
-
 validarLanzamientos <- function(registro, datos, output) {
   # El orden de los lanzamientos es:
   # Winter -> Spring -> Summer -> Fall
@@ -202,7 +201,7 @@ validarRendimiento <- function(registro, datos, output){
     } else if (c('bueno') %in% asistencia_rendimiento$rendimiento) {
       resultado <- 'excelente'
     } else if (c('necesita mejorar') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'buen'
+      resultado <- 'muy buen'
     } else if (c('reprobado') %in% asistencia_rendimiento$rendimiento) {
       resultado <- 'buen'
     }
@@ -210,21 +209,21 @@ validarRendimiento <- function(registro, datos, output){
     if (c('sobresaliente') %in% asistencia_rendimiento$rendimiento) {
       resultado <- 'excelente'
     } else if (c('muy bueno') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'buen'
+      resultado <- 'excelente'
     } else if (c('bueno') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'buen'
+      resultado <- 'muy buen'
     } else if (c('necesita mejorar') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'buen'
+      resultado <- 'muy buen'
     } else if (c('reprobado') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'mal'
+      resultado <- 'buen'
     }
   } else if (c('buena') %in% asistencia_rendimiento$asistencia) {
     if (c('sobresaliente') %in% asistencia_rendimiento$rendimiento) {
       resultado <- 'excelente'
     } else if (c('muy bueno') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'buen'
+      resultado <- 'muy buen'
     } else if (c('bueno') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'buen'
+      resultado <- 'muy buen'
     } else if (c('necesita mejorar') %in% asistencia_rendimiento$rendimiento) {
       resultado <- 'buen'
     } else if (c('reprobado') %in% asistencia_rendimiento$rendimiento) {
@@ -232,13 +231,13 @@ validarRendimiento <- function(registro, datos, output){
     }
   } else if (c('faltante') %in% asistencia_rendimiento$asistencia) {
     if (c('sobresaliente') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'buen'
+      resultado <- 'muy buen'
     } else if (c('muy bueno') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'buen'
+      resultado <- 'muy buen'
     } else if (c('bueno') %in% asistencia_rendimiento$rendimiento) {
       resultado <- 'buen'
     } else if (c('necesita mejorar') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'mal'
+      resultado <- 'buen'
     } else if (c('reprobado') %in% asistencia_rendimiento$rendimiento) {
       resultado <- 'mal'
     }
@@ -246,7 +245,7 @@ validarRendimiento <- function(registro, datos, output){
     if (c('sobresaliente') %in% asistencia_rendimiento$rendimiento) {
       resultado <- 'buen'
     } else if (c('muy bueno') %in% asistencia_rendimiento$rendimiento) {
-      resultado <- 'mal'
+      resultado <- 'buen'
     } else if (c('bueno') %in% asistencia_rendimiento$rendimiento) {
       resultado <- 'mal'
     } else if (c('necesita mejorar') %in% asistencia_rendimiento$rendimiento) {
