@@ -49,12 +49,12 @@ survey <- left_join(survey,df_per,by=c("estado"="Var1"))
 names(survey)
 ggplot(survey) +
   aes(x = lanzamiento, fill = factor(deserto)) +
-  geom_bar(position = "stack") +
+  geom_bar(position = "fill") +
   theme(axis.text.x = element_text(angle = 45))
 
 names(coursesData)
 
-
+prop.table(table(survey$lanzamiento,survey$deserto),1)
 
 
 
