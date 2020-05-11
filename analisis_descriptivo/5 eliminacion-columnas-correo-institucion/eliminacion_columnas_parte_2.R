@@ -7,9 +7,9 @@ coursesData <- read.csv("courses_data_cleaned_desempeño.csv",header = T,sep = "
 #Se eliminan las columnas que ya no tienen utilidad ya que fueron utilizadas para generar otras
     # institucion, ranking, indiceIDH -> se utilizaron para obtener nivelEducativo 
     # correo, año -> se utilizo para obtener el numero de lanzamientos consecutivos, la cual se utilizo para obtener asistencia
-    # notaFinal, mediaNotas -> se utilizaron para obtener desempeño
+    # notaFinal, mediaNotas, rendimiento, asistencia -> se utilizaron para obtener desempeño
 
-coursesData <- coursesData[,!(names(coursesData) %in% c("correo","institucion","notaFinal","ranking","indiceIDH","mediaNotas","año"))]
+coursesData <- coursesData[,!(names(coursesData) %in% c("correo","institucion","notaFinal","ranking","indiceIDH","mediaNotas","año","asistencia","rendimiento"))]
 #Se corrigio nivel educativo que esta en mayuscula
 names(coursesData)
 names(coursesData)[4] <- "nivelEducativo"

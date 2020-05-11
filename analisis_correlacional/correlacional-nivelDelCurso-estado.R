@@ -1,4 +1,4 @@
-
+setwd("~/Documents/Seminario/CoursesDataManagement/analisis_correlacional")
 
 ############## Libraries ##############
 library(dplyr)
@@ -6,7 +6,7 @@ library(ggplot2)
 #######################################
 
 #Leer archivo csv generado despues de analisis descriptivo  
-coursesData <- read.csv("analisis_descriptivo_estado_institucion_nivelDelCurso.csv",header = T,sep = ",", encoding = "UTF-8");
+coursesData <- read.csv("courses_data_cleaned_version_3.csv",header = T,sep = ",", encoding = "UTF-8");
 
 
 #Tabla de proporcioes de mas de una variable (dos es lo recomendable)
