@@ -1,24 +1,13 @@
 setwd("~/");
-setwd("Documents/Seminario/CoursesDataManagement/analisis_descriptivo/tratamiento-estado-nivelDelCurso")
+setwd("Documents/Seminario/CoursesDataManagement/analisis_descriptivo/6 analisis-estado-nivelDelCurso")
 getwd()
 ############## Libraries ##############
 library(dplyr)
 #######################################
 
-#Leer archivo csv con el tratamiento de nulos 
-coursesData <- read.csv("courses_data_cleaned_ranking_idh.csv",header = T,sep = ",", encoding = "UTF-8")
+#Leer archivo csv despues de haber eliminado correo e insittucion
+coursesData <- read.csv("courses_data_cleaned_version_2",header = T,sep = ",", encoding = "UTF-8")
 
-
-############### Analisis Descriptivo institucion ###############
-df_per_Institucion<-as.data.frame(prop.table(table(coursesData$institucion))) %>% arrange(Freq)
-
-boxplot(df_per_Institucion$Freq)
-
-hist(df_per_Institucion$Freq)
-
-qqnorm(df_per_Institucion$Freq)
-
-###########################################################
 
 ############### Analisis Descriptivo nivelDelCurso ###############
 
@@ -41,8 +30,8 @@ qqnorm(df_per_Nivel$Freq)
 #Agrupar niveles en categorias
 df_per_Nivel[df_per_Nivel$Var1 %in%c("Advanced 1"),"categoriaNivelDelCurso"] <-"Advanced"
 df_per_Nivel[df_per_Nivel$Var1 %in%c("Advanced 2","Advanced 3","English at Work 3"),"categoriaNivelDelCurso"] <-"Very Advanced"
-df_per_Nivel[df_per_Nivel$Var1 %in%c("Basic 3","Basic 1","Basic 2","First Discoveries"),"categoriaNivelDelCurso"] <-"Basic"
-df_per_Nivel[df_per_Nivel$Var1 %in%c("Intermediate 1","Intermediate 2","Intermediate 3"),"categoriaNivelDelCurso"] <-"Intermediate"
+df_per_Nivel[df_per_Nivel$Var1 %in%c("Basic 3","Basic 1","Basic 2","Basic 2 ","First Discoveries","First Discoveries "),"categoriaNivelDelCurso"] <-"Basic"
+df_per_Nivel[df_per_Nivel$Var1 %in%c("Intermediate 1","Intermediate 1 ","Intermediate 2","Intermediate 3"),"categoriaNivelDelCurso"] <-"Intermediate"
 
 #Asignar nuevamente el dataframe pero solo seleccionando Var1 y categoriaNivelDelCurso
 df_per_Nivel <- df_per_Nivel %>% select(Var1,categoriaNivelDelCurso)
@@ -82,31 +71,5 @@ boxplot(df_per_Estado$Freq)
 hist(df_per_Estado$Freq)
 
 qqnorm(df_per_Estado$Freq)
-#Agrupar "No Show" y "Dropout"
-df_per_Estado[df_per_Estado$Var1 %in%c("No Show","Dropout"),"categoria"] <-"Dropout"
-df_per_Estado[df_per_Estado$Var1 %in%c("Fail"),"categoria"] <-"Fail"
-df_per_Estado[df_per_Estado$Var1 %in%c("Pass"),"categoria"] <-"Pass"
-df_per_Estado <- df_per_Estado %>% select(Var1,categoria)
 
-#Unir la categoria a coursesData con un left join
-coursesData <- left_join(coursesData,df_per_Estado,by=c("estado"="Var1"))
-
-#Eliminar la columna de estado
-coursesData <- coursesData[,!(names(coursesData) %in% c("estado"))]
-
-#Cambiar el nombre de categoria a estado
-
-names(coursesData)[length(names(coursesData))] <- "estado"
-#Hacer nuevamente el analisis de los cambios
-df_per_Estado <-as.data.frame(prop.table(table(coursesData$estado))) %>% arrange(Freq)
-
-boxplot(df_per_Estado$Freq)
-
-hist(df_per_Estado$Freq)
-
-qqnorm(df_per_Estado$Freq)
-
-
-
-
-write.csv(coursesData,"analisis_descriptivo_estado_institucion_nivelDelCurso.csv", row.names = FALSE)
+write.csv(coursesData,"courses_data_cleaned_version_3.csv", row.names = FALSE)
