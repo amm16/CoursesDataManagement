@@ -1,14 +1,14 @@
 library(dplyr)
 library(ggplot2)
 
-datasetDesempeño <- read.csv('analisis_descriptivo/4 tratamiento-Desempeño/courses_data_cleaned_desempeño.csv', sep=",", header = TRUE)
+datasetDesempeño <- read.csv('analisis_descriptivo/6 analisis-estado-nivelDelCurso/courses_data_cleaned_version_3.csv', sep=",", header = TRUE)
 
 prop.table(table(datasetDesempeño$desempeño, datasetDesempeño$estado), 1)
 
 ggplot(datasetDesempeño) +
   aes(x = desempeño, fill = factor(estado)) +
   geom_bar(position = "fill") +
-  theme(axis.text.x = element_text(angle = 45))
+  labs(x="Categorías Desempeño", y = "Porcentajes")
 
 chisq.test(table(datasetDesempeño$desempeño, datasetDesempeño$estado))
 
