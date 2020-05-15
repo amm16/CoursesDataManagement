@@ -5,31 +5,21 @@ library(ggplot2)
 
 dataset <- read.csv('analisis_descriptivo/6 analisis-estado-nivelDelCurso/courses_data_cleaned_version_3.csv')
 
-
-# Se crea la columna referente a nuestra variable de resultados
-dataset$estudiante_desertor <- "0"
-
-# Se coloca en 1 a los estudiantes que desertaron
-dataset[ dataset$estado == "Dropout", "estudiante_desertor" ] <- 1
-dataset[ dataset$estado == "No Show", "estudiante_desertor" ] <- 1
-
-prop.table(table(dataset$estudiante_desertor))
-
 # Variables de importancia para la regresion
-features <- c('desempeÃ.o', 
-              'nivelDelCurso', 
-              'lanzamiento',
+features <- c('desempeño', 
+              'nivelDelCurso',
               'nivelEducativo',
-              'estudiante_desertor'
+              'lanzamiento',
+              'estado'
             )
 
 # Se crea un dataset con las columnas de importancia
 set <- dataset[, names(dataset) %in% features] 
-set$estudiante_desertor <- as.factor(set$estudiante_desertor)
+set$estado <- as.factor(set$estado)
 str(set)
 
 # Regresion lineal
-model <- glm(estudiante_desertor ~ ., data = set, family = "binomial")
+model <- glm(estado ~ ., data = set, family = "binomial")
 # Se guardan los nombres de las nuevas variables de la regresion
 importances <- varImp(model)
 importances$col <- row.names(importances)
@@ -38,27 +28,32 @@ importances
 
 # Graficos con respecto a cada variable
 
+
 # DESEMPEÑO
 ggplot(set) + 
-  aes(x = desempeÃ.o, fill = factor(estudiante_desertor)) +
+  aes(x = desempeño, fill = factor(estado)) +
   geom_bar(position = "fill") +
+  labs(title = "Regresión logística", x="Categorías Desempeño", y = "Porcentajes") +
   scale_fill_manual(values = c("#999999", "#E69F00"))
 
 # NIVEL DEL CURSO
 ggplot(set) + 
-  aes(x = nivelDelCurso, fill = factor(estudiante_desertor)) +
+  aes(x = nivelDelCurso, fill = factor(estado)) +
   geom_bar(position = "fill") +
+  labs(title = "Regresión logística", x="Niveles de los Cursos", y = "Porcentajes") +
   scale_fill_manual(values = c("#999999", "#E69F00"))
 
 # LANZAMIENTO
 ggplot(set) + 
-  aes(x = lanzamiento, fill = factor(estudiante_desertor)) +
+  aes(x = lanzamiento, fill = factor(estado)) +
   geom_bar(position = "fill") +
+  labs(title = "Regresión logística", x="Lanzamientos", y = "Porcentajes") +
   scale_fill_manual(values = c("#999999", "#E69F00"))
 
 # NIVEL EDUCATIVO
 ggplot(set) + 
-  aes(x = nivelEducativo, fill = factor(estudiante_desertor)) +
+  aes(x = nivelEducativo, fill = factor(estado)) +
   geom_bar(position = "fill") +
+  labs(title = "Regresión logística", x="Niveles Educativos", y = "Porcentajes") +
   scale_fill_manual(values = c("#999999", "#E69F00"))
 
