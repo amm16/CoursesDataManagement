@@ -1,0 +1,163 @@
+---
+title: "Desertion Analysis in Online English Courses"
+author: "Andrea Martinez"
+date: "5/16/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(ggplot2)
+```
+
+##Introducción 
+A través de los años las plataformas de aprendizaje en línea han logrado fortalecerse en el mercado, esto al ofrecer comodidades y otras ventajas que los cursos tradicionales no pueden brindar. Sin embargo, existe un aspecto importante en el que aún no pueden vencer a los cursos tradicionales y este es el alto número de deserciones. Este estudio se centra en analizar las características de los estudiantes desertores con el fin de identificar los factores que llevan a un estudiantes a tomar la decisión de abandonar un curso. La información analizada fue brindada por la plataforma en línea Laureate Languages Online (LLO) de Laureate International Universities. Esta plataforma ofrece cursos de inglés al personal administrativo y docente de las instituciones que pertenecen a la red de universidades. La plataforma de LLO también se enfrenta a un alto porcentaje de deserciones dentro de sus cursos, tomando en cuenta que esto conlleva a una gran pérdida de recursos para la empresa, se reitera la importancia de encontrar esos factores que intervienen en el número de deserciones.
+
+##Variables Capturadas
+```{r read_dataset, echo=FALSE}
+coursesData <- read.csv("CSV_DATASET.csv",header = T,sep = ",", encoding = "UTF-8")
+str(coursesData)
+```
+
+Como se puede observar en la informacion brindadada se capturaron `r nrow(coursesData)` observaciones y `r length(names(coursesData))`.
+
+A continuacion se muestra un breve resumen de cada una de nuestras columnas: 
+```{r column_summary}
+summary(coursesData)
+```
+##Tratamiento de Columnas
+Para trabajar con datos realmente utiles y que no son redundantes, se realizaron varios tipos de tratamientos. Entre ellos esta el tratamiento de nombres de columnas, el tratamiento de valores nulos, el descarte de columnas y el descarte de registros.
+###Tratamiento de Cambio de Nombres de Columnas
+El primer tratamiento que se realizo fue cambiar los nombre de las columnas a uno mas representativo. Ademas, se tradujeron los nombres del ingles al español. Al final quedaron los siguientes nombres de columnas.
+```{r column_names_change, echo=FALSE}
+coursesDataVariablesNames <- names(coursesData)
+df <- data.frame(column.name = coursesDataVariablesNames)
+write.csv(df,"column_names.csv", row.names = FALSE)
+coursesDataVariablesNames <- read.csv("column_names_treatment.csv",header = T,sep = ",", encoding = "UTF-8")
+coursesDataVariablesNames$translation <- as.character(coursesDataVariablesNames$translation)
+names(coursesData) <- coursesDataVariablesNames$translation
+names(coursesData)
+```
+
+### Descarte de Registros
+Se tomo la decision de eliminar los registros correspondientes al año 2020, porque cuando se obtuvo la informacion de los cursos por parte de LLO, el primer lanzamiento de este año aún estaba en transcurso. Por lo tanto los registros correspondientes aun no contaban con un estado asignado ni una nota final y por consiguiente no contribuiran con informacion util para determinar si un estudiante decide desertar o no. Esto corresponde solamente a `r nrow(filter(coursesData$a?o==2020)` registros. De igual manera se descartaron los estudiantes que tenían asignada una institución que no pertenece al ranking de universidades, siendo 1224 registros eliminados. 
+```{r , echo=FALSE}
+coursesData <- coursesData[!(coursesData$año==2020),]
+```
+
+
+###Tratamiento de Valores Nulos e Imputaciones
+    Al analizar nuestras columnas, se detecto que los valores nulos y vacios se encontraban solamente en la columna de notaFinal, lo cual se observa en la siguiente tabla que muestra el porcentaje de valores nulos y vacios de todas aquellas columnas que contienen valores nulos o vacios.
+```{r null_treatment, echo=FALSE}
+na.summay <- c()
+for (name in names(coursesData)) {
+  s <- as.data.frame(prop.table(table(coursesData[,name] == "#N/A")))
+  d <- as.data.frame(prop.table(table(coursesData[,name] == "")))
+  extraccionVectorNa <- s %>% filter(Var1 == T) %>% select (Freq)
+  extraccionVectorVa <- d %>% filter(Var1 == T) %>% select (Freq)
+  
+  DFTemporal <- data.frame(
+    column_Name=c(name),
+    column_NA_Percentage = ifelse(length(extraccionVectorNa$Freq) == 0, 0, extraccionVectorNa$Freq[1]),
+    column_Empty_Percentage = ifelse(length(extraccionVectorVa$Freq) == 0, 0, extraccionVectorVa$Freq[1])
+  )
+  na.summay <- rbind(na.summay,DFTemporal)
+}
+na.summay %>% arrange(-column_NA_Percentage) %>% filter(column_NA_Percentage>0) %>% filter(column_Empty_Percentage>0)
+```
+Al estudiar un poco la informacion se noto que todas las notas finales que tenian una valor de NA eran de registros que tenian un estado de Dropout o No Show. Como se puede observar en la siguiente tabla. Por lo cual se reemplazaron estos valores por una nota de 0, tomando en consideracion que en estos estados todos los demas registros que si tenian nota contaban con la nota de 0.
+```{r null_treatment, echo=FALSE}
+table(coursesData %>% filter(notaFinal=="#N/A") %>% select(estado))
+coursesData[coursesData$notaFinal == "#N/A","notaFinal"] <- "0"
+```
+En cuanto a los valores vacios, se observo que el 3.8% de los registros se encontraban en el estado de Pass y no contaban con una nota final. Se decidió asignarles como nota final el promedio de las notas de aquellos estudiantes que sí tienen una calificación asignada en el estado “Pass”. Asimismo, para los estudiantes en el estado “Fail” que no tenían una nota asignada, el cual representa el 7.7% de los registros, se les asigno el promedio de las calificaciones de aquellos que sí tienen un valor en su nota final y que se encuentran en un estado “Fail”. a los estados Dropout y No Show que tenian una nota vacia se les asigno la nota de 0, nuevamente tomando en consideracion que el resto de registros en estos estados que si tienen nota cuentan con una nota de 0. 
+
+```{r null_treatment, echo=FALSE}
+table( coursesData %>% filter(notaFinal=="") %>% select(estado))
+df.Pass <- coursesData %>% filter(estado=="Pass")
+df.Pass <- df.Pass[!(df.Pass$notaFinal==""),]
+df.Pass$notaFinal <- as.numeric(levels(df.Pass$notaFinal))[df.Pass$notaFinal]
+meanRegistrosPro<- mean(df.Pass$notaFinal)
+meanRegistrosPro<- format(round(meanRegistrosPro, 2), nsmall = 2)
+df.fail <- coursesData %>% filter(estado=="Fail") 
+df.fail <- df.fail[!(df.fail$notaFinal==""),]
+df.fail$notaFinal <- as.numeric(levels(df.fail$notaFinal))[df.fail$notaFinal]
+meanRegistrosFail<- mean(df.fail$notaFinal)
+meanRegistrosFail<- format(round(meanRegistrosFail, 2), nsmall = 2)
+DFTemporalPass<- coursesData %>% filter(estado=="Pass")
+DFTemporalPass$notaFinal <- as.numeric(levels(DFTemporalPass$notaFinal))[DFTemporalPass$notaFinal]
+DFTemporalPass[is.na(DFTemporalPass$notaFinal),"notaFinal"] <- meanRegistrosPro
+table(DFTemporalPass[DFTemporalPass$notaFinal==meanRegistrosPro,"notaFinal"])
+DFTemporalFail<- coursesData %>% filter(estado=="Fail")
+DFTemporalFail$notaFinal <- as.numeric(levels(DFTemporalFail$notaFinal))[DFTemporalFail$notaFinal]
+DFTemporalFail[is.na(DFTemporalFail$notaFinal),"notaFinal"] <- meanRegistrosFail
+table(DFTemporalFail[DFTemporalFail$notaFinal==meanRegistrosFail,"notaFinal"])
+DFTemporalDrop<- coursesData %>% filter( (estado=="Dropout"))
+DFTemporalDrop[DFTemporalDrop$estado=="Dropout","notaFinal"] <- 0
+DFTemporalNoshow<- coursesData %>% filter(estado=="No Show")
+DFTemporalNoshow[DFTemporalNoshow$estado=="No Show","notaFinal"] <- 0
+DFGeneralRows <- c()
+DFGeneralRows <- rbind(DFGeneralRows,DFTemporalPass)
+DFGeneralRows <- rbind(DFGeneralRows,DFTemporalFail)
+DFGeneralRows <- rbind(DFGeneralRows,DFTemporalDrop)
+DFGeneralRows <- rbind(DFGeneralRows,DFTemporalNoshow)
+coursesData<-DFGeneralRows
+```
+
+###Descarte de Columnas
+  Se encontro la necesidad de descartar aquellas columnas que no aportaban ningun valor al analisis como ser nombre, clase, lenguaje, nivel, correo, año, etc. La variable nombre, ademas de ser informacion sensible, no aporta ningun valor al analisis por lo tanto se descarto. La columna clase se eliminó porque tampoco es de utilidad para el análisis. La variable lenguaje se eliminó, ya que solo se nos proporcionó información de cursos en donde el lenguaje de aprendizaje es el inglés, por lo tanto todo los registros de esta columna tenian el mismo valor.
+  Las columnas nivel y nivelDelCurso proveen información redundante, por lo tanto se decidio descartar una de ellas. Tomando en cuenta que la columna nivelDelCurso se encuentra agrupada en menos categorias,se decidió quedarnos con esta y descartar la columna nivel. 
+  Tanto la variable año y correo se utilizaron para obtener el número de lanzamientos consecutivos de cada estudiante, por lo cual luego de generar esta nueva columna ya no eran de utilidad y se descartaron. 
+  Las variables notaFinal y  mediaNotas se eliminaron ya que a partir de ellas se generó la variable rendimiento. Posterirormenete, las variables asistencia y rendimiento se descartan para generar la variable desempeño.
+  La variable institución se utilizo para obtener el ranking de dicha institucion y el indiceIDH del pais al que perenece. Estas dos columnas se utilizaron para obtener el nivel de desarrollo educativo al que un estudiante pertenece. Luego de generar esta columna se elimminaron porque ya no aportaban algun valor. 
+  Finalmente quedamos con las siguientes variables:
+  
+```{r column_deletion, echo=FALSE}
+#Se lee archivo donde ya se añadieron las nuevas columnas, los demas compañeros explican esa parte
+coursesData <- read.csv("courses_data_cleaned_desempeño.csv",header = T,sep = ",", encoding = "UTF-8")
+coursesData <- coursesData[,!(names(coursesData) %in% c("correo","institucion","notaFinal","ranking","indiceIDH","mediaNotas","año","asistencia","rendimiento", "lenguaje", "clase","nivel"))]
+names(coursesData)[4] <- "nivelEducativo"
+write.csv(coursesData,"courses_data_cleaned_version_2", row.names = FALSE)
+names(coursesData)
+```
+
+##Analisis Descriptivo
+###nivelDelCurso
+
+```{r courseLevel_descriptive_analysis_before_treatment, echo=FALSE}
+df_per_Nivel <-as.data.frame(prop.table(table(coursesData$nivelDelCurso))) %>% arrange(Freq)
+boxplot(df_per_Nivel$Freq)
+hist(df_per_Nivel$Freq)
+qqnorm(df_per_Nivel$Freq)
+df_per_Nivel[df_per_Nivel$Var1 %in%c("Advanced 2","Advanced 3","English at Work 3","Advanced 1"),"categoriaNivelDelCurso"] <-"Advanced"
+df_per_Nivel[df_per_Nivel$Var1 %in%c("Basic 3","Basic 1","Basic 2","Basic 2 ","First Discoveries","First Discoveries "),"categoriaNivelDelCurso"] <-"Basic"
+df_per_Nivel[df_per_Nivel$Var1 %in%c("Intermediate 1","Intermediate 1 ","Intermediate 2","Intermediate 3"),"categoriaNivelDelCurso"] <-"Intermediate"
+df_per_Nivel <- df_per_Nivel %>% select(Var1,categoriaNivelDelCurso)
+coursesData <- left_join(coursesData,df_per_Nivel,by=c("nivelDelCurso"="Var1"))
+coursesData <- coursesData[,!(names(coursesData) %in% c("nivelDelCurso"))]
+names(coursesData)[length(names(coursesData))] <- "nivelDelCurso"
+```
+```{r courseLevel_descriptive_analysis_after_treatment, echo=FALSE}
+df_per_Nivel <-as.data.frame(prop.table(table(coursesData$nivelDelCurso))) %>% arrange(Freq)
+boxplot(df_per_Nivel$Freq)
+hist(df_per_Nivel$Freq)
+qqnorm(df_per_Nivel$Freq)
+```
+## Analisis Correlacional
+###Relacion entre nivel del curso y estado
+```{r courseLevel_correlation_analysis, echo=FALSE}
+coursesData <- read.csv("courses_data_cleaned_version_3.csv",header = T,sep = ",", encoding = "UTF-8");
+table_estado_nivel <- table(coursesData$estado,coursesData$nivelDelCurso)
+prop.table(table_estado_nivel,2)
+ggplot(coursesData) +
+  aes(x = estado, fill = factor(nivelDelCurso)) +
+  geom_bar(position = "fill") +
+  theme(axis.text.x = element_text(angle = 45))
+#H_0: Las categorias de estado y nivelDelCurso son independientes.
+#H_A: Las categorias de estado y nivelDelCurso son dependientes.
+#Regla: Aceptamos nuestra hipotesis nula cuando nuestro p-value de nuestra prueba chis.test es menor es menor a 0.05
+chisq.test(table_estado_nivel)
+# El valor de nuestro p-value es 1.131e-10
+# Conclusion: Segun nuestro p-value, aceptamos nuestra hipotesis nula, por lo tanto las variables son independientes.
+```
