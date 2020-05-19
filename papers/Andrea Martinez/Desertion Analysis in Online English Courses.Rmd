@@ -325,7 +325,7 @@ ggplot(set) +
 
 
 ##  Propuesta de Solución Tecnológica
-### Componentes de la aplicación móvil interactiva
+### Componentes de la Aplicación Móvil Interactiva
 Tomando en cuenta que en la actualidad múltiples plataformas de cursos en línea decidieron implementar aplicaciones móviles para aumentar la retención de usuarios y que varias de estas aplicaciones han sido exitosas, especialmente cuando son altamente interactivas.  Se propone la creación de una aplicación móvil basada en el concepto de gamificación con el fin de aumentar el número de interacciones que el usuario tiene con los cursos, esperando que debido a ello se motive al estudiante a lograr la culminación de los cursos. Para implementar gamificación, se incluirán juegos, donde el usuario puede contestar trivias y acumular cierta cantidad de puntos hasta alcanzar reconocimientos por logros. Considerando lo anterior, se recomienda lo siguiente:
     
 El desarrollo de la aplicación móvil será inicialmente en Android, ya que es la plataforma de mayor demanda entre los usuarios y que permite la fácil adquisición de la aplicación por parte de los usuarios a través de Google Play Store. Se sugiere utilizar el lenguaje Kotlin ya que es moderno, permite implementar el código de manera concisa y está oficialmente reconocido por Android. Para desarrollar de manera más eficiente se aconseja el uso de Android Studio, ya que es el IDE oficial y ofrece múltiples herramientas como su propio emulador y que facilitan la edición de código.
@@ -335,9 +335,11 @@ Para poder incluir juegos de trivia se hará uso de Typeform, ya que permite cre
 ![*Ilustración 1 Arquitectura de la aplicación móvil para la gamificación*](./img/i_26.jpg)
 
 
+
 Se propone una pantalla que muestre todos los logros que se pueden obtener en el curso. Por cada logro el usuario podrá visualizar una barra de progreso que le indicará cuánto le falta para completar dicho logro. Para implementar esto, se requiere de un Restful API creada a través de NodeJS que permite crear aplicaciones network escalables para que envíe la información de los logros a la aplicación. La aplicación procesa esta información y la muestra en pantalla (Ilustración 2).
 
 ![*Ilustración 2 Arquitectura de la aplicación móvil para logros y progreso*](./img/i_27.jpeg)
+
 
 
 Para aumentar el interés y el compromiso de los usuarios se decidió implementar los recordatorios o notificaciones. Se sugiere implementar Firebase que ofrece los servicios de Notification Composer y Cloud Messaging (FCM), los cuales en conjunto permiten enviar notificaciones push sin tener que preocuparse por la implementación de código o servidores y con la ventaja de ser gratuito (Ilustración 3). Además, se pueden personalizar las notificaciones y configurar plazos de vencimientos para las tareas.
@@ -345,9 +347,11 @@ Para aumentar el interés y el compromiso de los usuarios se decidió implementa
 ![*Ilustración 3 Arquitectura de la aplicación móvil para las notificaciones*](./img/i_28.jpg)
 
 
+
 Para mostrar el contenido de las lecciones dentro de la app, la plataforma LLO nos ofrece un CMS, que es el gestor de contenido de los cursos que almacena la información que se muestra al usuario. Este contenido sería consumido por una API desarrollada con Cloud Functions para poder desplegar esta información en la aplicación móvil y que el estudiante tenga acceso a dicho contenido desde su celular de manera interactiva y fácil. Esto se aprecia mejor en la Ilustración 4.
 
 ![*Ilustración 4 Arquitectura de la aplicación móvil para el CMS*](./img/i_29.jpeg)
+
 
 
 Para obtener información de mayor utilidad de los usuarios de los cursos LLO en la app, se sugiere implementar un ETL que permita transformar los datos utilizando el servicio de Dataflow y Bigquery que ofrece Google para este propósito. La plataforma de LLO brinda una base de datos que contiene información sobre todos los usuarios, en este caso los alumnos que están cursando los diferentes clases virtuales de los lenguajes brindados por Laureate. Esta base de datos será consumida a través de una API que extraerá los datos de los estudiantes y que la enviara a un ETL, donde se podrá migrar y transformar la información necesaria con el fin de vincular toda la población estudiantil de los cursos LLO y obtener datos que serán necesarios para que el contenido interactivo mostrado al estudiante coincida con el nivel correspondiente (Ilustración 5).
@@ -355,9 +359,11 @@ Para obtener información de mayor utilidad de los usuarios de los cursos LLO en
 ![*Ilustración 5 Arquitectura de la aplicación móvil para la transformación con el ETL*](./img/i_30.jpeg)
 
 
+
 Para obtener la información de los usuarios de la plataforma LLO en la app móvil, se necesitará una restful API y un ETL, el cual transforma la información de los usuarios y la envía a la Restful API. Finalmente, la aplicación móvil consume esta API para obtener los datos necesarios como se explicó anteriormente (Ilustración 6).
 
 ![*Ilustración 6 Arquitectura de la aplicación móvil para la información del usuario*](./img/i_31.png)
+
 
 
 Para que la plataforma LLO también tenga acceso a la información que se generó en la app móvil, como los logros que ha obtenido el usuario o su progreso, se conectara la base de datos propia de la app móvil a una API intermedia. Esta se comunicará con la API de LLO para que pueda recibir la información antes mencionada (Ilustración 7).
@@ -365,9 +371,11 @@ Para que la plataforma LLO también tenga acceso a la información que se gener�
 ![*Ilustración 7 Arquitectura de la aplicación móvil para el envío de información a la plataforma LLO*](./img/i_32.jpeg)
 
 
+
 Con el fin que la restful API obtenga la información de la base de datos, se conectara a un worker. Este worker está conectado a la base de datos de la app móvil, donde se almacena información sobre el resultado de los formularios de typeform, los logros que ha obtenido el usuario y su progreso (Ilustración 8).
 
 ![*Ilustración 8 Arquitectura de la aplicación móvil para Firebase*](./img/i_33.jpg)
+
 
 
 En la Ilustración 9 se aprecia la arquitectura completa de la solución propuesta, donde se visualizan las distintas relaciones de los componentes que se mencionaron anteriormente.
@@ -375,7 +383,8 @@ En la Ilustración 9 se aprecia la arquitectura completa de la solución propues
 ![*Ilustración 9 Arquitectura propuesta para la solución tecnológica*](./img/i_34.png)
 
 
-### Presupuesto para la implementación de la solución tecnológica para el ambiente de producción.
+
+### Presupuesto para la Implementación de la Solución Tecnológica para el Ambiente de Producción.
 
 Para el servicio de Firebase se propone un plan Blaze, el cual trae integración con Google Cloud Platform, se decidió aumentar los servicios de documentos escritos, leídos y eliminados, ya que el propósito principal de la solución es aumentar la interacción del usuario con la plataforma. Esto nos llevó a un cobro mensual de US$ 33.92, como se puede ver en la Tabla 1. Este plan incluye de manera gratuita el servicio de FCM, el cual se mencionó que se usará para enviar notificaciones a los usuarios.
 En cuanto para el servicio de Google Cloud Platform se sugiere un plan bajo demanda, su costo mensual y anual puede visualizarse en la Tabla 1. Los servicios propuestos son: BigQuery como el almacén de datos para generar reportes, Cloud Functions para administrar las API’s, Cloud Run para ejecutar los procesos en segundo plano del Service Worker y la Restful API principal, y Dataflow para la realización de los procesos ETL. El costo individual de estos servicios se puede apreciar en la Tabla 2.
